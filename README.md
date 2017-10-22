@@ -9,9 +9,11 @@ A collection of useful Bash scripts.
 This section provides an overview of each script this repository contains.
 
 ## sslinfo
-sslinfo prints a domain's ssl certificate. 
+Prints the ssl certificate for the provided URL.
 
-Args:
+Usage: `sslinfo [Options] URL`  
+
+Options:
 
 - `--trim,-t`: Removes chunks of math garble (ex., 00:ae:86:12:f2:53:71:57:11) 
                from the output.
