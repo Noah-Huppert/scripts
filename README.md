@@ -20,4 +20,8 @@ Options:
 # copy and paste
 The copy and paste scripts emulate the ctrl+{c,v} behavior in the shell.  
 
-copy accepts input from stdin. paste outputs to stdout.
+Copy accepts input from stdin. Paste outputs to stdout.  
+
+Copy usage: `echo "some text from stdin" | copy`  
+
+Paste usage: `paste | grep "some"`
