@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#
+# Noah Huppert 10/21/17
+#
+# Copies stdin to the "normal" clipboard (access with ctrl+{c,v})
+xclip -selection clipboard
+
