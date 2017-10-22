@@ -2,14 +2,10 @@
 A collection of useful Bash scripts. 
 
 # Table Of Contents
-- [Directory](#directory)
-	- [sslinfo](#sslinfo)
-	- [copy and paste](#copy-and-paste)
+- [sslinfo](#sslinfo)
+- [copy and paste](#copy-and-paste)
 
-# Directory
-This section provides an overview of each script this repository contains.
-
-## sslinfo
+# sslinfo
 Prints the ssl certificate for the provided URL.
 
 Usage: `sslinfo [Options] URL`  
@@ -21,7 +17,7 @@ Options:
 - `--page,-p`: Pages the output with the pager configured in the `$PAGER` 
                environment variable.
 
-## copy and paste
+# copy and paste
 The copy and paste scripts emulate the ctrl+{c,v} behavior in the shell.  
 
 copy accepts input from stdin. paste outputs to stdout.
