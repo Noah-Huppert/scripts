@@ -4,6 +4,7 @@ A collection of useful Bash scripts.
 # Table Of Contents
 - [sslinfo](#sslinfo)
 - [copy and paste](#copy-and-paste)
+- [nvim-swap](#nvim-swap)
 
 # sslinfo
 Prints the ssl certificate for the provided URL.
@@ -26,4 +27,9 @@ Copy usage: `<some input> | copy`
 
 Paste usage: `paste`
 
+# nvim-swap
+A script which clears any swap files nvim has made. It takes no arguments 
+and always removes any `*.swp` files in the `$HOME/.local/share/nvim/swap` 
+directory.  
 
+Usage: `nvim-swap`

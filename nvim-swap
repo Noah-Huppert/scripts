@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# 
+# Noah Huppert - 10/22/17
+#
+# Cleans the nvim swap directory.
+rm $HOME/.local/share/nvim/swap/*.swp
