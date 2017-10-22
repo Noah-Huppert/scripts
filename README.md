@@ -22,6 +22,8 @@ The copy and paste scripts emulate the ctrl+{c,v} behavior in the shell.
 
 Copy accepts input from stdin. Paste outputs to stdout.  
 
-Copy usage: `echo "some text from stdin" | copy`  
+Copy usage: `<some input> | copy`
 
-Paste usage: `paste | grep "some"`
+Paste usage: `paste`
+
+
