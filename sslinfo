@@ -1,0 +1,112 @@
+#!/usr/bin/env bash
+# 
+# Noah Huppert - 10/21/17
+# 
+# Displays information about the provided URL's SSL certificate.
+#
+# Usage: sslinfo [options] URL
+#
+# Options:
+# 	--trim,-t        Removes math garble (ex., 00:ae:86:12:f2:53:71:57:11) 
+#			 from the output. Text that a human would most likely 
+#			 not be able to make sense of.
+#	
+#	--page,-p        Page the potentially long output. The $PAGER
+#			 environment variable must be configured.
+#
+# Args:
+# 	1. URL (string): URL to display SSL certificate information for. Should 
+#			 not have a scheme components (ex., https://).
+#
+#			 Ex: www.noahh.io
+#
+#		 	 If a value matching the expression: /-*[Hh](?:elp)?$/
+#			 is provided this help text will be printed.
+#
+# Behavior:
+# 	All arguments provided: prints ssl certificate information to stdout
+# 	No arguments provided: Print this help text
+#
+# Return Values:
+#	0             = Success
+# 	Anything else = Failure
+
+# Options
+while (( "$#" > 1 )); do
+	# Process first argument (Since options come first), and shift. Until 
+	# only one argument is left (Hopefully the URL).
+	# trim option
+	if [[ "$1" =~ --?t(rim)? ]]; then
+		trim=true
+	# page option
+	elif [[ "$1" =~ --?p(age)? ]]; then
+		# Check $PAGER environment variable is configured
+		if [[ -z "$PAGER" ]]; then
+			echo "Error: Page option provided but \$PAGER environment variable not set"
+			exit 1
+		fi
+		page=true
+	else
+		echo "Error: Unknown option \"$1\""
+		exit 1
+	fi
+
+	shift
+done
+
+# Check if help
+if [[ ( -z "$1" ) || ( "$1" =~ "-*[Hh](?:elp)?$" ) ]]; then
+	cat << EOF
+Displays information about the provided URL's SSL certificate.
+
+ Usage: sslinfo [options] URL
+
+ Options:
+ 	--trim,-t        Removes math garble (ex., 00:ae:86:12:f2:53:71:57:11) 
+			 from the output. Text that a human would most likely 
+			 not be able to make sense of.
+	
+	--page,-p        Page the potentially long output. The $PAGER
+			 environment variable must be configured.
+
+ Args:
+ 	1. URL (string): URL to display SSL certificate information for. Should 
+			 not have a scheme components (ex., https://).
+
+			 Ex: www.noahh.io
+
+		 	 If a value matching the expression: /-*[Hh](?:elp)?$/
+			 is provided this help text will be printed.
+
+ Behavior:
+ 	All arguments provided: prints ssl certificate information to stdout
+ 	No arguments provided: Print this help text
+
+ Return Values:
+	0             = Success
+ 	Anything else = Failure
+EOF
+
+# Show ssl info
+else
+	host="$1"
+
+	# Openssl trick for getting cert info from SO: 
+	# https://serverfault.com/a/661982
+	info=$(echo | \
+	openssl s_client -showcerts -servername "$host" -connect "$host:443" 2>/dev/null | \
+	openssl x509 -inform pem -noout -text)
+
+	# Trim if requested
+	if [[ "$trim" ]]; then
+		info=$(echo "$info" | sed -e '/\([0-9a-fA-F]\{2\}:\)\{2,\}/d')
+	fi
+
+	# Output info
+	# Page if requested
+	if [[ "$page" ]]; then
+		echo "$info" | $PAGER
+	else
+		echo "$info"
+	fi
+fi
