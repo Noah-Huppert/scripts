@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+#
+# Noah Huppert - 10/22/17
+#
+#?
+# Prints the help documentation located in the top comments of a script. 
+# More specifically the text between the two "#?" help tags. These help tags 
+# designate exactly which text should be printed.
+#
+# Usage: show-help FILE
+#
+# Args:
+# 	1. FILE (string): Path of file to print help text of
+#
+# Behavior:
+# 	No arguments provided: Exits with error
+#	All arguments provided: Prints the text between the help tags in the 
+#				top comment of the file
+#
+# Return Values:
+# 	0: 	       Success
+# 	Anything Else: Failure
+#?
+
+# Check first arg
+# If not provided
+if [[ -z "$1" ]]; then
+	echo "Error: Expected 1 argument"
+	exit 1
+
+# If doesn't exist
+elif [[ ! -f "$1" ]]; then
+	echo "Provided file \"$1\" does not exist"
+	exit 1
+fi
+
+filePath="$1"
+
+# Print text between help tags:
+# 	1. Echo file contents
+# 	2. Only show text between help tags
+# 	3. Remove lines containing help tags
+# 	4. Remove beginning comment hash
+cat "$filePath" | \
+	sed -n '/^#?/,/^#?/p' | \
+	grep -v '^#?' | \
+	sed 's/^#[ ]\?//g' 

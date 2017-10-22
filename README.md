@@ -2,9 +2,64 @@
 A collection of useful Bash scripts. 
 
 # Table Of Contents
+- [show-help](#show-help)
 - [sslinfo](#sslinfo)
 - [copy and paste](#copy-and-paste)
 - [nvim-swap](#nvim-swap)
+
+# show-help
+Prints the text in the top comment of a script that is between two `#?` 
+comments. These two `#?` comments act as tags, to designate exactly what text 
+to print.  
+
+Usage: `show-help <file name>`  
+
+For example, most of the scripts have a top comment similar to this:
+
+```
+#!/usr/bin/env bash
+# 
+# Noah Huppert - MM/DD/YY
+#
+#?
+# Foo bars the specifeid baz from entering the the specified ipsum
+#
+# Usage: foo [Options] BAZ IPSUM
+#
+# Options:
+# 	--verbose    Prints extra run information
+#
+# Args:
+# 	1. BAZ (string): Baz to bar from entering the ipsum
+#	2. IPSUM (string): Ipsum to bar the specified baz from entering
+#
+# Return Values:
+#	0     = Success
+# 	Not 0 = Failure
+#?
+```
+
+If one were to run `show-help` on this file, the text between the `#?` comments 
+would be displayed: 
+
+```
+Foo bars the specifeid baz from entering the the specified ipsum
+
+Usage: foo [Options] BAZ IPSUM
+
+Options:
+	--verbose    Prints extra run information
+
+Args:
+	1. BAZ (string): Baz to bar from entering the ipsum
+	2. IPSUM (string): Ipsum to bar the specified baz from entering
+
+Return Values:
+	0     = Success
+ 	Not 0 = Failure
+```
+
+Notice how the preceding comments are removed as well.
 
 # sslinfo
 Prints the ssl certificate for the provided URL.

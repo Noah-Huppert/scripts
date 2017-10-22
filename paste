@@ -2,7 +2,9 @@
 #
 # Noah Huppert - 10/21/17
 #
+#?
 # Prints the contents of the "normal" clipboard (access with ctrl+{c,v}) to 
 # stdout
+#?
 xclip -o -selection clipboard
 

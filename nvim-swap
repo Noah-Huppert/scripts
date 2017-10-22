@@ -2,6 +2,8 @@
 # 
 # Noah Huppert - 10/22/17
 #
+#?
 # Cleans the nvim swap directory.
+#?
 echo "Cleaning nvim swap directory"
 rm $HOME/.local/share/nvim/swap/*.swp || echo "No swap files"
