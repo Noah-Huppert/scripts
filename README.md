@@ -3,6 +3,7 @@ A collection of useful Bash scripts.
 
 # Table Of Contents
 - [show-help](#show-help)
+- [bklight](#bklight)
 - [sslinfo](#sslinfo)
 - [copy and paste](#copy-and-paste)
 - [nvim-swap](#nvim-swap)
@@ -60,6 +61,22 @@ Return Values:
 ```
 
 Notice how the preceding comments are removed as well.
+
+# bklight
+Controls the display backlight. See the command help output for configuration 
+details.  
+
+The bklight command has 2 valid sub commands: get and set.
+
+Get can retrieve the following values: percent, raw, and max.
+Set can set the following values: percent, raw.
+
+Usage: `bklight COMMAND <Sub-Args...>`
+
+If a valid percent valid is provided as the command, bklight will set the 
+backlight to that percent. This is a useful shorthand.
+
+Shorthand usage: `bklight <percent value>`
 
 # sslinfo
 Prints the ssl certificate for the provided URL.
