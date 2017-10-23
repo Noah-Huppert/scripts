@@ -73,7 +73,7 @@ Set can set the following values: percent, raw.
 
 Usage: `bklight COMMAND <Sub-Args...>`
 
-If a valid percent valid is provided as the command, bklight will set the 
+If a valid percent value is provided as the command, bklight will set the 
 backlight to that percent. This is a useful shorthand.
 
 Shorthand usage: `bklight <percent value>`
