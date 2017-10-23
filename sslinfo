@@ -58,7 +58,7 @@ done
 
 # Check if help
 if [[ ( -z "$1" ) || ( "$1" =~ "-*[Hh](?:elp)?$" ) ]]; then
-	show-help ./sslinfo
+	show-help -s sslinfo
 # Show ssl info
 else
 	host="$1"

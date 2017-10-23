@@ -7,7 +7,11 @@
 # More specifically the text between the two "#?" help tags. These help tags 
 # designate exactly which text should be printed.
 #
-# Usage: show-help FILE
+# Usage: show-help [Options] FILE
+#
+# Options
+# 	--scripts,-s    If this flag is provided, show-help will look in the 
+#			$HOME/Documents/bin/scripts directory.
 #
 # Args:
 # 	1. FILE (string): Path of file to print help text of
@@ -22,19 +26,41 @@
 # 	Anything Else: Failure
 #?
 
+# Options
+# While more than one arg, process option and shift
+while (( "$#" > 1 )); do
+	# Process option
+	if [[ "$1" =~ ^(--scripts|-s)$ ]]; then
+		scriptsDirOption=true
+	else
+		echo "Error: Unknown option \"$1\""
+		exit 1
+	fi
+
+	# Shift
+	shift
+done
+
 # Check first arg
 # If not provided
 if [[ -z "$1" ]]; then
+	show-help -s show-help
 	echo "Error: Expected 1 argument"
-	exit 1
-
-# If doesn't exist
-elif [[ ! -f "$1" ]]; then
-	echo "Provided file \"$1\" does not exist"
 	exit 1
 fi
 
-filePath="$1"
+# If file path should be in scripts dir, as described in help text
+if [[ "$scriptsDirOption" ]]; then
+	filePath="$HOME/Documents/bin/scripts/$1"
+else
+	filePath="$1"
+fi
+
+# If doesn't exist
+if [[ ! -f "$filePath" ]]; then
+	echo "Provided file \"$filePath\" does not exist"
+	exit 1
+fi
 
 # Print text between help tags:
 # 	1. Echo file contents

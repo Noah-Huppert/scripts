@@ -1,0 +1,201 @@
+#!/usr/bin/env bash
+#
+# Noah Huppert - 10/22/17
+#
+#?
+# Controls the screen backlight. Uses environment variables prefixed with
+# DOTRC_BKLIGHT for configuration:
+# 	- DOTRC_BKLIGHT_CTRL_FILE (string): File path to backlight hardware 
+#  				            control file.
+# 	- DOTRC_BKLIGHT_MAX_FILE (string): File path which holds the max raw 
+#					   hardware value.
+#
+# Usage: bklight COMMAND <Sub-Args...>
+#
+# Percent shortcut usage: bklight <percent value>
+# This shortcut invocation expects a percent value between [0, 100]. And will 
+# set the backlight to this percent.
+#
+# Args:
+# 	1. COMMAND (string): Sub command to run. Available sub-commands are:
+#					- get
+#					- set
+#			     If a value matching the regex /^-?-?[Hh]{1}(elp)?$/ 
+#			     is provided, this help text will be shown. Or if 
+#			     the value is empty help will be shown as well.
+#
+# Commands:
+# 
+# The bklight utility provides several sub commands:
+#
+# get:    Get a backlight related value
+#
+#	  Usage: bklight get KEY METAVALUE
+#         
+#	  Sub Args:
+#	  	1. KEY (string): Value to retrieve. Valid values are:
+#			- percent,p,% (int): Percent value backlight is set to. 
+#					     Value in range [0, 100]
+#			- raw,r (int): Raw backlight value. In range [0, max] 
+#				       where max is the maximum value the
+#				       backlight can be set to.
+#			- max,m (int): Maximum raw backlight value hardware can 
+#				       be set to.
+#		2. METAVALUE (int): This argument will only be parsed if 
+#				    KEY is percent or raw.
+#
+#				    percent: If provided the cmd will return 
+#				    the percent value, if the provide METAVALUE 
+#				    were the raw hardware backlight value.
+#				
+#				    raw: If provided the cmd will return the 
+#				    raw hardware value, for the provided 
+#				    percentage in the METAVAR.
+# set:    Set a backlight related value
+#
+#	  Usage: bklight set KEY VALUE
+#
+#	  Sub Args:
+#		1. KEY (string): Value to set. Valid values are listed in the 
+#  		                 get sub command args.
+#		2. VALUE (integer): New value to set.
+#
+# Return Values:
+#	0     = Success
+#	Not 0 = Failure
+#?
+
+keyPercentRegex='^(percent|p|%)$'
+keyRawRegex='^(raw|r)$'
+keyMaxRegex='^(max|m)$'
+
+# Helper that determines if provided key is a valid key. Based on the get 
+# sub command KEY sub arg docs.
+#
+# Args
+# 	1 key (string): Key to check
+#
+# Returns
+# 	0 = Not a valid key
+#	1 = Valid key
+function testValidKey() { # ($1:key)
+	key="$1"
+
+	if [[ "$key" =~ $keyPercentRegex || "$key" =~ $keyRawRegex || "$key" =~ $keyMaxRegex ]]; then
+		echo true
+	else
+		echo false
+	fi
+}
+
+# Command
+# Check if help
+if [[ "$1" =~ ^-?-?[Hh]{1}(elp)?$ ]]; then
+	show-help -s bklight
+elif [[ -z "$1" ]]; then
+	show-help -s bklight
+	echo "Error: Expected at least 1 argument"
+	exit 1
+
+# If get command
+elif [[ "$1" == "get" ]]; then
+	# Check valid key
+	if [[ -z "$2" ]]; then
+		echo "Error: Second argument, key, must be provided"
+		exit 1
+	elif [[ ! $(testValidKey "$2") ]]; then
+		echo "Error: Invalid key argument provided \"$2\""
+		exit 1
+	fi
+
+	# Get key value
+	key="$2"
+	if [[ "$key" =~ $keyPercentRegex ]]; then
+		# Check if 3rd argument, metavar was provided
+		if [[ ! -z "$3" ]]; then
+			# Use provided value
+			bklightVal="$3"
+		else
+			# Use raw value
+			bklight=$(bklight get raw)
+		fi
+
+		percentf=$(echo "scale=2; ($bklightVal / $(bklight get max)) * 100" | bc)
+		echo "$percentf / 1" | bc
+	elif [[ "$key" =~ $keyRawRegex ]]; then
+		# Check if 3rd argument, metavar was provided
+		if [[ ! -z "$3" ]]; then
+			# Compute value
+			rawf=$(echo "scale=2; ($3 / 100) * $(bklight get max)" | bc)
+			echo "$rawf / 1" | bc
+		else 
+			# Get value
+			cat "$DOTRC_BKLIGHT_CTRL_FILE"
+		fi
+	elif [[ "$key" =~ $keyMaxRegex ]]; then
+		cat "$DOTRC_BKLIGHT_MAX_FILE"
+	else
+		echo "WTF: bklight get $key if statement fell through, this should not happen"
+		exit 1
+	fi
+
+# If set command
+elif [[ "$1" == "set" ]]; then
+	# Check correct number of arguments
+	if [[ -z "$2" ]]; then
+		echo "Error: Second argument, key, must be provided"
+		exit 1
+	elif [[ -z "$3" ]]; then
+		echo "Error: Third argument, value, must be provided"
+		exit 1
+	fi
+
+	# Check valid key
+	if [[ "$2" =~ $keyMaxRegex || ! $(testValidKey "$2") ]]; then
+		echo "Error: Invalid key argument provided \"$2\""
+		exit 1
+	fi
+
+	key="$2"
+
+	# Check value in range and set
+	value="$3"
+
+	if [[ "$key" =~ $keyPercentRegex ]]; then
+		# Check range
+		if (( "$value" < 0 )) || (( "$value" > 100 )); then
+			echo "Error: Percent value not in range [0, 100]"
+			exit 1
+		fi
+
+		toSetVal=$(bklight get raw "$value")
+
+		echo "Setting backlight to $value%"
+		bklight set raw "$toSetVal"
+	elif [[ "$key" =~ $keyRawRegex ]]; then
+		# Check range
+		maxVal=$(bklight get max)
+		if (( "$value" < 0 )) || (( "$value" > "$maxVal" )); then
+			echo "Error: Raw value not in range [0, $maxVal]"
+			exit 1
+		fi
+
+		echo "Setting raw backlight hardware value to $value / $maxVal"
+		echo "Requesting sudo access..."
+		sudo tee "$DOTRC_BKLIGHT_CTRL_FILE" <<< "$value"
+
+		echo "Success"
+	else
+		echo "WTF: bklight set $key $value if statement fell through, this should not happen"
+		exit 1
+	fi
+
+# If none of other commands, check if in percent range. If so then user is 
+# using shorthand bklight <percent value> invocation
+elif (( "$1" >= 0 )) && (( "$1" <= 100 )); then
+	bklight set percent "$1"
+else
+	show-help -s bklight
+	echo "Error: Unknown command \"$1\""
+	exit 1
+fi
