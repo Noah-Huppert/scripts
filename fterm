@@ -1,0 +1,7 @@
+!/usr/bin/env bash
+# 
+# Noah Huppert - 10/26/17
+#
+# Opens up a terminal as a floating window
+bspc rule -a \* -o state=floating && $TERMINAL && bspc rule -r \* -o state=floating
+

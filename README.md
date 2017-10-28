@@ -7,6 +7,7 @@ A collection of useful Bash scripts.
 - [sslinfo](#sslinfo)
 - [copy and paste](#copy-and-paste)
 - [nvim-swap](#nvim-swap)
+- [fterm](#fterm)
 
 # show-help
 Prints the text in the top comment of a script that is between two `#?` 
@@ -105,3 +106,9 @@ and always removes any `*.swp` files in the `$HOME/.local/share/nvim/swap`
 directory.  
 
 Usage: `nvim-swap`
+
+# fterm
+A script which opens a terminal in a floating window using bspwm. The terminal 
+to open should be specified by the `$TERMINAL` variable.
+
+Usage: `fterm`
