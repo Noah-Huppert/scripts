@@ -8,6 +8,7 @@ A collection of useful Bash scripts.
 - [copy and paste](#copy-and-paste)
 - [nvim-swap](#nvim-swap)
 - [fterm](#fterm)
+- [p](#p)
 
 # show-help
 Prints the text in the top comment of a script that is between two `#?` 
@@ -112,3 +113,12 @@ A script which opens a terminal in a floating window using bspwm. The terminal
 to open should be specified by the `$TERMINAL` variable.
 
 Usage: `fterm`
+
+# p
+LastPass password retrieval script using the lastpass cli.  
+
+Usage: `p MATCHSTR`  
+
+Args:
+
+- `MATCHSTR` (string): Fuzzy match string to search with
