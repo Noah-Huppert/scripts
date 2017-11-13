@@ -9,6 +9,7 @@ A collection of useful Bash scripts.
 - [nvim-swap](#nvim-swap)
 - [fterm](#fterm)
 - [p](#p)
+- [local-dns](#local-dns)
 
 # show-help
 Prints the text in the top comment of a script that is between two `#?` 
@@ -122,3 +123,19 @@ Usage: `p MATCHSTR`
 Args:
 
 - `MATCHSTR` (string): Fuzzy match string to search with
+
+# local-dns
+A tool which modifies your `/etc/hosts` file to give you local domains for 
+quick development.  
+
+Usage: `local-dns CMD <args...>`  
+
+Commands:
+
+- `init`
+    - Creates the `$HOME/.config/local-dns` directory and copies your current 
+      `/etc/hosts` to this location
+- `set KEY VAL`
+    - Sets the `KEY` subdomain to point to the provided `VAL`
+- `rm KEY`
+    - Removes the provided `KEY`
