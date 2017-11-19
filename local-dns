@@ -57,6 +57,36 @@ function to-length { # (txt, length [,spacer])
  }
 
 function run() {	
+	# Creates XDG dir
+	confDir="$HOME/.config/local-dns"
+	mkdir -p "$confDir"
+
+	domainsDir="$confDir/domains"
+	mkdir -p "$domainsDir"
+
+	# Vars
+	hostsOriginal="$confDir/hosts.original"
+
+	# Check help arg
+	if [[ ( "$#" == 0 ) || ( "$1" == "--help" ) ]]; then
+		show-help -s local-dns
+	fi
+
+	# Check command
+	if [[ -z "$1" ]]; then
+		echo "Error: first argument, command, not provided"
+		exit 1
+	fi
+	cmd="$1"
+
+
+	# Run
+	if [[ ( ("$cmd" != "ls" ) && ( "$cmd" != "init" ) ) && ( $EUID -ne 0 ) ]]; then
+		echo "Need to run as sudo, automatically relaunching"
+		sudo -E "$0" "$@"
+		return
+	fi
+
 	# Run command
 	if [[ "$cmd" == "init" ]]; then
 		#
@@ -199,33 +229,4 @@ function run() {
 	fi
 }
 
-# Creates XDG dir
-confDir="$HOME/.config/local-dns"
-mkdir -p "$confDir"
-
-domainsDir="$confDir/domains"
-mkdir -p "$domainsDir"
-
-# Vars
-hostsOriginal="$confDir/hosts.original"
-
-# Check help arg
-if [[ ( "$#" == 0 ) || ( "$1" == "--help" ) ]]; then
-	show-help -s local-dns
-fi
-
-# Check command
-if [[ -z "$1" ]]; then
-	echo "Error: first argument, command, not provided"
-	exit 1
-fi
-cmd="$1"
-
-
-# Run
-if [[ ( ("$cmd" != "ls" ) && ( "$cmd" != "init" ) ) && ( $EUID -ne 0 ) ]]; then
-	echo "Need to run as sudo, automatically relaunching"
-	sudo -E "$0" "$@"
-else
-	run "$@"
-fi
+run "$@"

@@ -10,6 +10,7 @@ A collection of useful Bash scripts.
 - [fterm](#fterm)
 - [p](#p)
 - [local-dns](#local-dns)
+- [fix](#fix)
 
 # show-help
 Prints the text in the top comment of a script that is between two `#?` 
@@ -139,3 +140,8 @@ Commands:
     - Sets the `KEY` subdomain to point to the provided `VAL`
 - `rm KEY`
     - Removes the provided `KEY`
+
+# fix
+Fixes terminal after outputting binary garbage.  
+
+Usage: `fix`
