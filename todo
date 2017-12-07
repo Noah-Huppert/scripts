@@ -4,4 +4,4 @@
 #
 # Usage: todo
 #?
-grep --color "TODO.*" -R .
+grep --color "TODO" -R .
