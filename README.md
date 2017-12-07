@@ -11,6 +11,7 @@ A collection of useful Bash scripts.
 - [p](#p)
 - [local-dns](#local-dns)
 - [fix](#fix)
+- [todo](#todo)
 
 # show-help
 Prints the text in the top comment of a script that is between two `#?` 
@@ -145,3 +146,8 @@ Commands:
 Fixes terminal after outputting binary garbage.  
 
 Usage: `fix`
+
+# todo
+Shows todo notes in source files.  
+
+Usage: `todo`

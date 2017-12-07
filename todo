@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#?
+# Todo - Shows todo notes in source files
+#
+# Usage: todo
+#?
+grep --color "TODO.*" -R .
