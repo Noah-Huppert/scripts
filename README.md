@@ -8,7 +8,6 @@ A collection of useful Bash scripts.
 - [copy and paste](#copy-and-paste)
 - [nvim-swap](#nvim-swap)
 - [fterm](#fterm)
-- [p](#p)
 - [local-dns](#local-dns)
 - [fix](#fix)
 - [todo](#todo)
@@ -72,12 +71,13 @@ Notice how the preceding comments are removed as well.
 Controls the display backlight. See the command help output for configuration 
 details.  
 
-The bklight command has 2 valid sub commands: get and set.
+The bklight command has 3 valid sub commands: get, set, and increment.
 
-Get can retrieve the following values: percent, raw, and max.
-Set can set the following values: percent, raw.
+Usage: `bklight COMMAND <Sub-Args...>`  
 
-Usage: `bklight COMMAND <Sub-Args...>`
+Get can retrieve the following values: percent, raw, and max.  
+Set can set the following values: percent, raw.  
+Increment adds or subtracts a value from the current percent value.  
 
 If a valid percent value is provided as the command, bklight will set the 
 backlight to that percent. This is a useful shorthand.

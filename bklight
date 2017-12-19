@@ -9,6 +9,8 @@
 #  				            control file.
 # 	- DOTRC_BKLIGHT_MAX_FILE (string): File path which holds the max raw 
 #					   hardware value.
+#	- DOTRC_BKLIGHT_INCREMENT (int): Percentage to add or subtract 
+#					     when using the increment command.
 #
 # Usage: bklight COMMAND <Sub-Args...>
 #
@@ -20,6 +22,7 @@
 # 	1. COMMAND (string): Sub command to run. Available sub-commands are:
 #					- get
 #					- set
+#					- increment
 #			     If a value matching the regex /^-?-?[Hh]{1}(elp)?$/ 
 #			     is provided, this help text will be shown. Or if 
 #			     the value is empty help will be shown as well.
@@ -30,7 +33,7 @@
 #
 # get:    Get a backlight related value
 #
-#	  Usage: bklight get KEY METAVALUE
+#	  Usage: bklight get KEY [METAVALUE]
 #         
 #	  Sub Args:
 #	  	1. KEY (string): Value to retrieve. Valid values are:
@@ -42,23 +45,18 @@
 #			- max,m (int): Maximum raw backlight value hardware can 
 #				       be set to.
 #		2. METAVALUE (int): This argument will only be parsed if 
-#				    KEY is percent or raw.
+#				    KEY is percent or raw. Optional.
 #
 #				    It is used to express to the get command  
 #				    that one would like to calculate a value.
 #
-#				    If "+" or "-" is the first char of 
-#				    METAVALUE: Will compute the new value, then 
-#                                   add or subtract from the current equivalent 
-# 				    value and return.
-#
 #				    KEY=percent,p,%:
 #				        Calculate the raw backlight hardware
-#				    value at the given percent.
+#				        value at the given percent.
 #
 #				    KEY=raw,r:
 #				        Calculate the percent backlight value 
-#                                   given a raw backlight hardware value.
+#                                       given a raw backlight hardware value.
 # set:    Set a backlight related value
 #
 #	  Usage: bklight set KEY VALUE
@@ -67,6 +65,17 @@
 #		1. KEY (string): Value to set. Valid values are listed in the 
 #  		                 get sub command args.
 #		2. VALUE (integer): New value to set.
+#
+# increment:    Add or subtract to/from the backlight percentage value.
+#		
+#		Usage: bklight increment DIR [VALUE]
+#
+#		Sub Args:
+#			1. DIR (string): Direction to change backlight % in. 
+#					 Value values are:
+#						- +: Adds the value
+#						- -: Subtracts the value
+#			2. VALUE (int): Percent value to increment by. Optional.
 #
 # Return Values:
 #	0     = Success
@@ -79,10 +88,15 @@ keyPercent="percent"
 keyRaw="raw"
 keyMax="max"
 
-# `
+# Keys specifying which backlight value to set
 keyPercentRegex='^(percent|p|%)$'
 keyRawRegex='^(raw|r)$'
 keyMaxRegex='^(max|m)$'
+
+# Default config values
+defaultControlFile="/sys/class/backlight/intel_backlight/brightness"
+defaultMaxBrightnessFile="/sys/class/backlight/intel_backlight/max_brightness"
+defaultIncrement=10
 
 # Helper that determines if provided key is a valid key. Based on the get 
 # sub command KEY sub arg docs.
@@ -104,6 +118,28 @@ function testValidKey() { # ($1:key)
 		echo false
 	fi
 }
+
+# Config vars
+# -- -- Control file
+if [[ -z "$DOTRC_BKLIGHT_CTRL_FILE" ]]; then
+	controlFile="$defaultControlFile"
+else
+	controlFile="$DOTRC_BKLIGHT_CTRL_FILE"
+fi
+
+# -- -- Max brightness file
+if [[ -z "$DOTRC_BKLIGHT_MAX_FILE" ]]; then
+	maxBrightnessFile="$defaultMaxBrightnessFile"
+else
+	maxBrightnessFile="$DOTRC_BKLIGHT_MAX_FILE"
+fi
+
+# -- -- Increment
+if [[ -z "$DOTRC_BKLIGHT_INCREMENT" ]]; then
+	increment="$defaultIncrement"
+else
+	increment="$DOTRC_BKLIGHT_INCREMENT"
+fi
 
 # Command
 # Check if help
@@ -149,11 +185,11 @@ elif [[ "$1" == "get" ]]; then
 			echo "$rawf / 1" | bc
 		else 
 			# Get value
-			cat "$DOTRC_BKLIGHT_CTRL_FILE"
+			cat "$controlFile"
 		fi
 	# Check if getting max
 	elif [[ "$key" =~ $keyMaxRegex ]]; then
-		cat "$DOTRC_BKLIGHT_MAX_FILE"
+		cat "$maxBrightnessFile"
 	else
 		echo "WTF: bklight get $key if statement fell through, this should not happen"
 		exit 1
@@ -200,15 +236,64 @@ elif [[ "$1" == "set" ]]; then
 			exit 1
 		fi
 
+		# Check if running as sudo
 		echo "Setting raw backlight hardware value to $value / $maxVal"
-		echo "Requesting sudo access..."
-		sudo tee "$DOTRC_BKLIGHT_CTRL_FILE" <<< "$value"
+		if (( "$EUID" != 0 )); then
+			echo "Requesting sudo access..."
+			sudo tee "$controlFile" <<< "$value"
+		else
+			tee "$controlFile" <<< "$value"
+		fi
 
 		echo "Success"
 	else
 		echo "WTF: bklight set $key $value if statement fell through, this should not happen"
 		exit 1
 	fi
+
+# Increment command
+elif [[ "$1" == "increment" ]]; then
+	# Check direction arg provided
+	if [[ -z "$2" ]]; then
+		echo "Error: First argument, direction, must be provided"
+		exit 1
+	fi
+	dir="$2"
+
+	# Check valid direction
+	if [[ "$dir" == "up" ]]; then
+		op="+"
+	elif [[ "$dir" == "down" ]]; then
+		op="-"
+	else
+		echo "Error: Direction argument can only be \"up\" or \"down\""
+		exit 1
+	fi
+
+	# Check if value provided
+	if [[ ! -z "$3" ]]; then
+		# If provided
+		val="$3"
+	elif [[ ! -z "$increment" ]]; then
+		# Check if custom setting
+		val="$increment"
+	else
+		# Program default
+		val="$defaultIncrement"
+	fi
+
+	# Calculate
+	newVal=$(echo "scale=2; $(bklight get percent) $op $val" | bc)
+
+	# Make sure new val is in bounds
+	if (( "$newVal" < 0 )); then
+		newVal="0"
+	elif (( "$newVal" > 100 )); then
+		newVal="100"
+	fi
+
+	# Set
+	bklight set percent "$newVal"
 
 # If none of other commands, check if in percent range. If so then user is 
 # using shorthand bklight <percent value> invocation
