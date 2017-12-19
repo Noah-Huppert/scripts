@@ -84,6 +84,19 @@ backlight to that percent. This is a useful shorthand.
 
 Shorthand usage: `bklight <percent value>`
 
+## Setup
+Steps were sources from [this SO answer](https://unix.stackexchange.com/questions/337663/how-to-write-to-sys-with-a-script-after-rebooting-sudo/337671#337671).  
+
+To allow user's to invoke the bklight script without typing their password every 
+time do the following:  
+
+1. Make a file called `/etc/sudoers.d/bklight`  
+2. Enter the contents:  
+```
+user ALL=(ALL) NOPASSWD:/home/user/Documents/bin/scripts/bklight
+```
+Be sure to replace `user` (2 occurances) with your username.
+
 # sslinfo
 Prints the ssl certificate for the provided URL.
 

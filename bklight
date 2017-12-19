@@ -236,16 +236,18 @@ elif [[ "$1" == "set" ]]; then
 			exit 1
 		fi
 
-		# Check if running as sudo
 		echo "Setting raw backlight hardware value to $value / $maxVal"
+
+		# Check if running as sudo
 		if (( "$EUID" != 0 )); then
+			# Not sudo, call recursively
 			echo "Requesting sudo access..."
-			sudo tee "$controlFile" <<< "$value"
+			sudo bklight set "$key" "$value"
 		else
 			tee "$controlFile" <<< "$value"
+			echo "Success"
 		fi
 
-		echo "Success"
 	else
 		echo "WTF: bklight set $key $value if statement fell through, this should not happen"
 		exit 1
