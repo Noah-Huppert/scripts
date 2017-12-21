@@ -12,6 +12,7 @@ A collection of useful Bash scripts.
 - [fix](#fix)
 - [todo](#todo)
 - [x](#x)
+- [m](#m)
 
 # show-help
 Prints the text in the top comment of a script that is between two `#?` 
@@ -170,3 +171,8 @@ Usage: `todo`
 Kills current terminal.  
 
 Usage: `x`
+
+# m
+Make shortcut.  
+
+Usage: `m [Make arguments]`
