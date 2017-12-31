@@ -1,0 +1,9 @@
+#!/usr/env/bin bash
+#?
+# bg - Sets the system's background
+#
+# Usage: bg
+#?
+bg_dir=/usr/share/pixmaps/
+bg_file=seattle-needle.jpg
+feh --bg-scale "${bg_dir}${bg_file}"

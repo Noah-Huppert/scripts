@@ -13,6 +13,7 @@ A collection of useful Bash scripts.
 - [todo](#todo)
 - [x](#x)
 - [m](#m)
+- [bg](#bg)
 
 # show-help
 Prints the text in the top comment of a script that is between two `#?` 
@@ -176,3 +177,8 @@ Usage: `x`
 Make shortcut.  
 
 Usage: `m [Make arguments]`
+
+# bg
+Sets the desktop background with feh.  
+
+Usage: `bg`
