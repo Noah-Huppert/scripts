@@ -13,7 +13,7 @@ A collection of useful Bash scripts.
 - [todo](#todo)
 - [x](#x)
 - [m](#m)
-- [bg](#bg)
+- [bkground](#bkground)
 
 # show-help
 Prints the text in the top comment of a script that is between two `#?` 
@@ -178,7 +178,7 @@ Make shortcut.
 
 Usage: `m [Make arguments]`
 
-# bg
+# bkground
 Sets the desktop background with feh.  
 
-Usage: `bg`
+Usage: `bkground`
