@@ -4,6 +4,14 @@
 #
 # Usage: bkground
 #?
-bg_dir=/usr/share/pixmaps/
-bg_file=seattle-needle.jpg
+
+# Config
+
+# Directory backgrounds are located in. The path must end in a forward slash.
+bg_dir="$HOME/Documents/pictures/"
+
+# File in directory to set as background
+bg_file="winter.png"
+
+# Set background
 feh --bg-scale "${bg_dir}${bg_file}"
