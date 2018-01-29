@@ -4,4 +4,4 @@
 #
 # Usage: todo
 #?
-grep --exclude-dir vendor --color "TODO" -R .
+grep -n --exclude-dir vendor --color "TODO" -R .
