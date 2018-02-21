@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+#?
+# wifi - Shortcut to connect to wifi networks
+#
+# Usage: wifi SHORTCUT
+#
+# ARGS:
+#	SHORTCUT: Name of wifi shortcut to connect to. Valid values:
+#		- summit
+#		- home
+#?
+svc=""
+case "$1" in
+	summit)
+		svc="wifi_3052cb823a67_53756d6d69745f466c6f6f72735f31302d3234_managed_psk"
+		;;
+	home)
+		svc="wifi_3052cb823a67_275f27_managed_psk"
+		;;
+	*)
+		echo "invalid wifi shortcut name"
+		exit 1
+esac
+
+echo "connecting to $1"
+connmanctl connect "$svc"

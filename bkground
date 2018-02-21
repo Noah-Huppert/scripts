@@ -11,7 +11,7 @@
 bg_dir="$HOME/Documents/pictures/"
 
 # File in directory to set as background
-bg_file="winter.png"
+bg_file="skyline.png"
 
 # Set background
 feh --bg-scale "${bg_dir}${bg_file}"

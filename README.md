@@ -14,6 +14,7 @@ A collection of useful Bash scripts.
 - [x](#x)
 - [m](#m)
 - [bkground](#bkground)
+- [wifi](#wifi)
 
 # show-help
 Prints the text in the top comment of a script that is between two `#?` 
@@ -182,3 +183,14 @@ Usage: `m [Make arguments]`
 Sets the desktop background with feh.  
 
 Usage: `bkground`
+
+# wifi
+Shortcut for reconnecting to wifi.  
+
+Usage: `wifi <shortcut>`  
+
+Args:
+
+- `shortcut`: Name of wifi network to connect to. Valid values:
+	- `home`
+	- `summit`
