@@ -8,6 +8,7 @@
 #	SHORTCUT: Name of wifi shortcut to connect to. Valid values:
 #		- summit
 #		- home
+#		- edu
 #?
 svc=""
 case "$1" in
@@ -16,6 +17,9 @@ case "$1" in
 		;;
 	home)
 		svc="wifi_3052cb823a67_275f27_managed_psk"
+		;;
+	edu)
+		svc="wifi_3052cb823a67_656475726f616d_managed_ieee8021x"
 		;;
 	*)
 		echo "invalid wifi shortcut name"

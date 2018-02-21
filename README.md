@@ -194,3 +194,4 @@ Args:
 - `shortcut`: Name of wifi network to connect to. Valid values:
 	- `home`
 	- `summit`
+	- `edu`
