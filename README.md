@@ -195,3 +195,7 @@ Args:
 	- `home`
 	- `summit`
 	- `edu`
+- `scan`: If the name of the shortcut is `scan` the script will scan for 
+          wifi networks.
+- `list`: If the name of the shortcut is `list` the script will list all known 
+	  wireless networks.
