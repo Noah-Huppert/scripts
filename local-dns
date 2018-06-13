@@ -3,9 +3,10 @@
 # Local DNS - A tool which modifies your `/etc/hosts` file to give you local 
 #             domains for quick development.  
 #
-# Usage: local-dns COMMAND CMD_ARGS...
+# USAGE
+#	local-dns COMMAND [OPTIONS] CMD_ARGS...
 #
-# Args:
+# ARGUMENTS
 #     1. COMMAND (String): Command to run, one of the following:
 #         - init
 #               Creates the `$HOME/.config/local-dns` directory and copies your current 
@@ -23,7 +24,10 @@
 #         - rm KEY
 #               Removes the provided `KEY`
 #
-# Behavior:
+# OPTIONS
+#	--help,-h    Display help text
+#
+# BEHAVIOR
 #	Modifies the `/etc/hosts` file to provide custom local DNS names.
 #?
 

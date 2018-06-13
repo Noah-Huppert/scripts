@@ -2,9 +2,13 @@
 #?
 # Fix - Resets the terminal output settings
 #
-# Usage: fix
+# USAGE
+#	fix [OPTIONS]
 #
-# Behavior:
+# OPTIONS
+#	--help,-h    Display help text
+#
+# BEHAVIOR
 #	Fixes the terminal output settings after they may have been screwed 
 #	up from printing binary.
 #?

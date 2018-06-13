@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
-#
-# Noah Huppert - 12/10/17
-#
 #?
-# x - Exit shortcut
+# X - Exit shortcut
 #
-# Usage: x
+# USAGE
+#	x [OPTIONS]
 #
-# Behavior:
+# OPTIONS
+#	--help,-h    Display help text
+#
+# BEHAVIOR
 #	Ends the process running the command. Useful for exiting a terminal 
 #	with a single character command.
 #?

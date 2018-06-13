@@ -2,9 +2,13 @@
 #?
 # Todo - Shows todo notes in source files
 #
-# Usage: todo
+# USAGE
+#	todo [OPTIONS]
 #
-# Behavior:
+# OPTIONS
+#	--help,-h    Display help text
+#
+# BEHAVIOR
 #	Searches for lines in source files containing the word "TODO" and 
 #	displays them.  
 #

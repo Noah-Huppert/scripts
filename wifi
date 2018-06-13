@@ -2,9 +2,10 @@
 #?
 # wifi - Shortcut to connect to wifi networks
 #
-# Usage: wifi SHORTCUT
+# USAGE
+#	wifi SHORTCUT [OPTIONS]
 #
-# Args:
+# ARGUMENTS
 #	1. SHORTCUT: Name of wifi shortcut to connect to. Valid values:
 #		- summit
 #		- home
@@ -16,7 +17,10 @@
 #	        list: If the shortcut is named "list" the script will list all 
 #                     the known wifi networks.
 #
-# Behavior:
+# OPTIONS
+#	--help,-h    Display help text
+#
+# BEHAVIOR
 #	If a shortcut name is specified:     Connects to a wifi network
 #	If a wifi command name is specified: Executes the special command
 #?

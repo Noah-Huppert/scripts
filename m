@@ -2,9 +2,13 @@
 #?
 # m - Make shortcut
 #
-# Usage: m [Make args]
+# USAGE
+#	m [OPTIONS] [Make args]
 #
-# Behavior:
+# OPTIONS
+#	--help,-h    Display help text
+#
+# BEHAVIOR
 #	Invokes GNU Make with the provided arguments. A Useful shortcut.
 #?
 

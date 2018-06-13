@@ -2,9 +2,13 @@
 #?
 # NVim Swap - Cleans the nvim swap directory.
 #
-# Usage: nvim-swap
+# USAGE
+#	nvim-swap [OPTIONS]
 #
-# Behavior:
+# OPTIONS
+#	--help,-h    Display help text
+#
+# BEHAVIOR
 #	Clears all swap files from the NVim swap directory
 #?
 

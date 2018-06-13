@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 #?
-# paste - Prints the contents of the "normal" clipboard (access with 
+# Paste - Prints the contents of the "normal" clipboard (access with 
 #         ctrl+{c,v}) to stdout.
 #
-# Usage: paste > foo.txt
+# USAGE
+#	paste [OPTIONS] > foo.txt
 #
-# Behavior:
+# OPTIONS
+#	--help,-h    Display help text
+#
+# BEHAVIOR
 #	Dumps the contents of the clipboard to stdout.
 #?
 

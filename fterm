@@ -2,9 +2,13 @@
 #?
 # FTerm - Opens up a terminal as a floating window
 #
-# Usage: fterm
+# USAGE
+#	fterm [OPTIONS]
 #
-# Behavior:
+# OPTIONS
+#	--help,-h    Display help text
+#
+# BEHAVIOR
 #	Opens a terminal as a floating window with BSPWM.
 #?
 

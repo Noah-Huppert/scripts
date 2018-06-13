@@ -1,21 +1,11 @@
 #!/usr/bin/env bash
-# 
-# Noah Huppert - 10/21/17
-# 
 #?
-# Displays information about the provided URL's SSL certificate.
+# SSL Info - Displays information about the provided URL's SSL certificate.
 #
-# Usage: sslinfo [options] URL
+# USAGE
+#	sslinfo [OPTIONS] URL
 #
-# Options:
-# 	--trim,-t        Removes math garble (ex., 00:ae:86:12:f2:53:71:57:11) 
-#			 from the output. Text that a human would most likely 
-#			 not be able to make sense of.
-#	
-#	--page,-p        Page the potentially long output. The $PAGER
-#			 environment variable must be configured.
-#
-# Args:
+# ARGUMENTS
 # 	1. URL (string): URL to display SSL certificate information for. Should 
 #			 not have a scheme components (ex., https://).
 #
@@ -23,10 +13,16 @@
 #
 #		 	 If a value matching the expression: /-*[Hh](?:elp)?$/
 #			 is provided this help text will be printed.
+# OPTIONS
+# 	--trim,-t        Removes math garble (ex., 00:ae:86:12:f2:53:71:57:11) 
+#			 from the output. Text that a human would most likely 
+#			 not be able to make sense of.
+#	
+#	--page,-p        Page the potentially long output. The $PAGER
+#			 environment variable must be configured.
 #
-# Behavior:
-# 	All arguments provided: prints ssl certificate information to stdout
-# 	No arguments provided: Print this help text
+# BEHAVIOR
+#	Prints ssl certificate information to stdout
 #?
 
 # Options

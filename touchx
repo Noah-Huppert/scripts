@@ -2,12 +2,16 @@
 #?
 # Touchx - Creates a file with execution privileges
 # 
-# Usage: touchx FILE
+# USAGE
+#	touchx FILE [OPTIONS]
 #
-# Args:
+# ARGUMENTS
 #	1. FILE (String): File to create
 #
-# Behavior:
+# OPTIONS
+#	--help,-h    Display help text
+#
+# BEHAVIOR
 #	Creates a file with execution permissions.
 #?
 

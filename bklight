@@ -1,24 +1,28 @@
 #!/usr/bin/env bash
-#
-# Noah Huppert - 10/22/17
-#
 #?
-# Controls the screen backlight. Uses environment variables prefixed with
-# DOTRC_BKLIGHT for configuration:
-# 	- DOTRC_BKLIGHT_CTRL_FILE (string): File path to backlight hardware 
-#  				            control file.
-# 	- DOTRC_BKLIGHT_MAX_FILE (string): File path which holds the max raw 
-#					   hardware value.
-#	- DOTRC_BKLIGHT_INCREMENT (int): Percentage to add or subtract 
-#					     when using the increment command.
+# BkLight - Controls the screen backlight.
 #
-# Usage: bklight COMMAND <Sub-Args...>
+# CONFIGURATION
+#	Uses environment variables prefixed with DOTRC_BKLIGHT for 
+#	configuration.
 #
-# Percent shortcut usage: bklight <percent value>
-# This shortcut invocation expects a percent value between [0, 100]. And will 
-# set the backlight to this percent.
+# 	DOTRC_BKLIGHT_CTRL_FILE (String): File path to backlight hardware 
+#					  control file.
+# 	DOTRC_BKLIGHT_MAX_FILE (String): File path which holds the max raw 
+#					 hardware value.
+#	DOTRC_BKLIGHT_INCREMENT (Int): Percentage to add or subtract 
+#				       when using the increment command.
 #
-# Args:
+# USAGE
+#	bklight COMMAND [OPTIONS] <Sub-Args...>
+#
+# 	Percent shortcut usage:
+#		bklight <percent value>
+#
+# 		This shortcut invocation expects a percent value between 
+#		[0, 100]. And will set the backlight to this percent.
+#
+# ARGUMENTS
 # 	1. COMMAND (string): Sub command to run. Available sub-commands are:
 #					- get
 #					- set
@@ -26,17 +30,22 @@
 #			     If a value matching the regex /^-?-?[Hh]{1}(elp)?$/ 
 #			     is provided, this help text will be shown. Or if 
 #			     the value is empty help will be shown as well.
+# OPTIONS
+#	--help,-h    Display help text
 #
-# Commands:
-# 
-# The bklight utility provides several sub commands:
+# COMMANDS
+#	get
+#	set
+#	increment
 #
-# get:    Get a backlight related value
+# GET COMMAND
+#	Get a backlight related value
 #
-#	  Usage: bklight get KEY [METAVALUE]
+#	USAGE:
+#		bklight get KEY [METAVALUE]
 #         
-#	  Sub Args:
-#	  	1. KEY (string): Value to retrieve. Valid values are:
+#	SUB ARGUMENTS
+#		1. KEY (string): Value to retrieve. Valid values are:
 #			- percent,p,% (int): Percent value backlight is set to. 
 #					     Value in range [0, 100]
 #			- raw,r (int): Raw backlight value. In range [0, max] 
@@ -57,27 +66,32 @@
 #				    KEY=raw,r:
 #				        Calculate the percent backlight value 
 #                                       given a raw backlight hardware value.
-# set:    Set a backlight related value
 #
-#	  Usage: bklight set KEY VALUE
+# SET COMMAND
+#	Set a backlight related value
 #
-#	  Sub Args:
+#	USAGE
+#		bklight set KEY VALUE
+#
+#	SUB ARGUMENTS
 #		1. KEY (string): Value to set. Valid values are listed in the 
 #  		                 get sub command args.
 #		2. VALUE (integer): New value to set.
 #
-# increment:    Add or subtract to/from the backlight percentage value.
+# INCREMENT COMMAND
+#	Add or subtract to/from the backlight percentage value.
 #		
-#		Usage: bklight increment DIR [VALUE]
+#	USAGE
+#		bklight increment DIR [VALUE]
 #
-#		Sub Args:
-#			1. DIR (string): Direction to change backlight % in. 
-#					 Value values are:
-#						- +: Adds the value
-#						- -: Subtracts the value
-#			2. VALUE (int): Percent value to increment by. Optional.
+#	SUB ARGUMENTS
+#		1. DIR (string): Direction to change backlight % in. Value 
+#				 values are:
+#					- +: Adds the value
+#					- -: Subtracts the value
+#		2. VALUE (int): Percent value to increment by. Optional.
 #
-# Setup:
+# SETUP
 # 	Steps were sourced from this SO answer: https://unix.stackexchange.com/questions/337663/how-to-write-to-sys-with-a-script-after-rebooting-sudo/337671#337671).  
 #
 #	To allow user's to invoke the bklight script without typing their 

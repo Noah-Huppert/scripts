@@ -1,22 +1,24 @@
 #!/usr/bin/env bash
 #?
-# Prints the help documentation located in the top comments of a script. 
-# More specifically the text between the two "#?" help tags. These help tags 
-# designate exactly which text should be printed.
+# Show Help - Prints the help documentation located in the top comments of a 
+#             script. 
 #
-# Usage: show-help [Options] FILE
+# USAGE
+#	show-help [OPTIONS] FILE
 #
-# Options
-# 	--scripts,-s    If this flag is provided, show-help will look in the 
-#			$HOME/Documents/bin/scripts directory.
-#
-# Args:
+# ARGUMENTS
 # 	1. FILE (string): Path of file to print help text of
 #
-# Behavior:
-# 	No arguments provided: Exits with error
-#	All arguments provided: Prints the text between the help tags in the 
-#				top comment of the file
+# OPTIONS
+# 	--scripts,-s    If this flag is provided, show-help will look in the 
+#			$HOME/Documents/bin/scripts directory.
+#	--help,-h       Display help text
+#
+# BEHAVIOR
+# 	Prints the text between the help tags in the top comment of the file.
+#
+#	More specifically the text between the two "#?" help tags. 
+#	These help tags designate exactly which text should be printed.
 #?
 
 # Options

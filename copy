@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
-#
-# Noah Huppert - 10/21/17
-#
 #?
 # Copy - Copies stdin to the "normal" clipboard (access with ctrl+{c,v})
 #
-# Usage: copy < foo.txt OR cat foo.txt | copy
+# USAGE
+#	copy [OPTIONS] < foo.txt
+#	cat foo.txt | copy [OPTIONS]
 #
-# Behavior:
+# OPTIONS
+#	--help,-h    Display help text
+#
+# BEHAVIOR
 #	Sets the clipboard to the contents of stdin.
 #?
 
