@@ -1,2 +1,19 @@
 #!/usr/bin/env bash
+#?
+# Fix - Resets the terminal output settings
+#
+# Usage: fix
+#
+# Behavior:
+#	Fixes the terminal output settings after they may have been screwed 
+#	up from printing binary.
+#?
+
+# Help argument
+if [[ "$1" =~ ^(--help|-h)$ ]]; then
+	show-help "$0"
+	exit 1
+fi
+
+# Fix
 stty sane

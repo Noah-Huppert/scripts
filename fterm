@@ -1,7 +1,19 @@
-!/usr/bin/env bash
-# 
-# Noah Huppert - 10/26/17
+#!/usr/bin/env bash
+#?
+# FTerm - Opens up a terminal as a floating window
 #
-# Opens up a terminal as a floating window
+# Usage: fterm
+#
+# Behavior:
+#	Opens a terminal as a floating window with BSPWM.
+#?
+
+# Help argument
+if [[ "$1" =~ ^(--help|-h)$ ]]; then
+	show-help "$0"
+	exit 1
+fi
+
+# Open
 bspc rule -a \* -o state=floating && $TERMINAL && bspc rule -r \* -o state=floating
 

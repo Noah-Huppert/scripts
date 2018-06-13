@@ -3,5 +3,19 @@
 # Todo - Shows todo notes in source files
 #
 # Usage: todo
+#
+# Behavior:
+#	Searches for lines in source files containing the word "TODO" and 
+#	displays them.  
+#
+#	Useful for leaving notes in the source code and finding them later.
 #?
+
+# Help option
+if [[ "$1" =~ ^(--help|-h)$ ]]; then
+	show-help "$0"
+	exit 1
+fi
+
+# Find todo notes
 grep -n --exclude-dir vendor --color "TODO" -R .

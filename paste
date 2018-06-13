@@ -1,10 +1,20 @@
 #!/usr/bin/env bash
-#
-# Noah Huppert - 10/21/17
-#
 #?
-# Prints the contents of the "normal" clipboard (access with ctrl+{c,v}) to 
-# stdout
+# paste - Prints the contents of the "normal" clipboard (access with 
+#         ctrl+{c,v}) to stdout.
+#
+# Usage: paste > foo.txt
+#
+# Behavior:
+#	Dumps the contents of the clipboard to stdout.
 #?
+
+# Help option
+if [[ "$1" =~ ^(--help|-h)$ ]]; then
+	show-help "$0"
+	exit 1
+fi
+
+# Paste
 xclip -o -selection clipboard
 

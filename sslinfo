@@ -27,58 +27,58 @@
 # Behavior:
 # 	All arguments provided: prints ssl certificate information to stdout
 # 	No arguments provided: Print this help text
-#
-# Return Values:
-#	0             = Success
-# 	Anything else = Failure
 #?
 
 # Options
-while (( "$#" > 1 )); do
-	# Process first argument (Since options come first), and shift. Until 
-	# only one argument is left (Hopefully the URL).
-	# trim option
-	if [[ "$1" =~ --?t(rim)? ]]; then
-		trim=true
-	# page option
-	elif [[ "$1" =~ --?p(age)? ]]; then
-		# Check $PAGER environment variable is configured
-		if [[ -z "$PAGER" ]]; then
-			echo "Error: Page option provided but \$PAGER environment variable not set"
+while [ ! -z "$1" ]; do
+	case "$1" in
+		--trim|-t)
+			trim=true
+			;;
+		--page|-p)
+			# Check $PAGER environment variable is configured
+			if [[ -z "$PAGER" ]]; then
+				echo "Error: Page option provided but \$PAGER environment variable not set" >&2
+				exit 1
+			fi
+			page=true
+			;;
+		--help|-h)
+			show-help "$0"
 			exit 1
-		fi
-		page=true
-	else
-		echo "Error: Unknown option \"$1\""
-		exit 1
-	fi
+			;;
+		*)
+			host="$1"
+			;;
+	esac
 
 	shift
 done
 
-# Check if help
-if [[ ( -z "$1" ) || ( "$1" =~ "-*[Hh](?:elp)?$" ) ]]; then
-	show-help -s sslinfo
-# Show ssl info
+# Arguments
+if [ -z "$host" ]; then
+	echo "Error: host argument must be provided" >&2
+	exit 1
+elif ! [[ "$host" =~ ^([a-zA-Z0-9]+\.)+[a-zA-Z0-9]+$ ]]; then
+	echo "Error: Invalid host \"$host\"" >&2
+	exit 1
+fi
+
+# Openssl trick for getting cert info from SO: 
+# https://serverfault.com/a/661982
+info=$(echo | \
+openssl s_client -showcerts -servername "$host" -connect "$host:443" 2>/dev/null | \
+openssl x509 -inform pem -noout -text)
+
+# Trim if requested
+if [[ "$trim" ]]; then
+	info=$(echo "$info" | sed -e '/\([0-9a-fA-F]\{2\}:\)\{2,\}/d')
+fi
+
+# Output info
+# Page if requested
+if [[ "$page" ]]; then
+	echo "$info" | $PAGER
 else
-	host="$1"
-
-	# Openssl trick for getting cert info from SO: 
-	# https://serverfault.com/a/661982
-	info=$(echo | \
-	openssl s_client -showcerts -servername "$host" -connect "$host:443" 2>/dev/null | \
-	openssl x509 -inform pem -noout -text)
-
-	# Trim if requested
-	if [[ "$trim" ]]; then
-		info=$(echo "$info" | sed -e '/\([0-9a-fA-F]\{2\}:\)\{2,\}/d')
-	fi
-
-	# Output info
-	# Page if requested
-	if [[ "$page" ]]; then
-		echo "$info" | $PAGER
-	else
-		echo "$info"
-	fi
+	echo "$info"
 fi

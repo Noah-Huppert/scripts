@@ -3,7 +3,17 @@
 # bkground - Sets the system's background
 #
 # Usage: bkground
+#
+# Behavior:
+#	Sets the desktop background image using feh to the image specified by 
+#	the $bg_dir and $bg_file variables in the script.
 #?
+
+# Help option
+if [[ "$1" =~ ^(--help|-h)$ ]]; then
+	show-help "$0"
+	exit 1
+fi
 
 # Config
 

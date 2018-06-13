@@ -1,9 +1,19 @@
 #!/usr/bin/env bash
-# 
-# Noah Huppert - 10/22/17
+#?
+# NVim Swap - Cleans the nvim swap directory.
 #
+# Usage: nvim-swap
+#
+# Behavior:
+#	Clears all swap files from the NVim swap directory
 #?
-# Cleans the nvim swap directory.
-#?
+
+# Help argument
+if [[ "$1" =~ ^(--help|-h)$ ]]; then
+	show-help "$0"
+	exit 1
+fi
+
+# Clean
 echo "Cleaning nvim swap directory"
 rm $HOME/.local/share/nvim/swap/*.swp || echo "No swap files"

@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-#
-# Noah Huppert - 10/22/17
-#
 #?
 # Prints the help documentation located in the top comments of a script. 
 # More specifically the text between the two "#?" help tags. These help tags 
@@ -20,45 +17,41 @@
 # 	No arguments provided: Exits with error
 #	All arguments provided: Prints the text between the help tags in the 
 #				top comment of the file
-#
-# Return Values:
-# 	0: 	       Success
-# 	Anything Else: Failure
 #?
 
 # Options
 # While more than one arg, process option and shift
-while (( "$#" > 1 )); do
-	# Process option
-	if [[ "$1" =~ ^(--scripts|-s)$ ]]; then
-		scriptsDirOption=true
-	else
-		echo "Error: Unknown option \"$1\""
-		exit 1
-	fi
+while [ ! -z "$1" ]; do
+	case "$1" in
+		--scripts|-s)
+			scriptsDirOption=true
+			;;
+		--help|-h)
+			show-help "$0"
+			exit 1
+			;;
+		*)
+			filePath="$1"
+			;;
+	esac
 
-	# Shift
 	shift
 done
 
-# Check first arg
-# If not provided
-if [[ -z "$1" ]]; then
-	show-help -s show-help
-	echo "Error: Expected 1 argument"
+# Check file path provided
+if [ -z "$filePath" ]; then
+	echo "Error: File argument must be provided" >&2
 	exit 1
 fi
 
 # If file path should be in scripts dir, as described in help text
 if [[ "$scriptsDirOption" ]]; then
-	filePath="$HOME/Documents/bin/scripts/$1"
-else
-	filePath="$1"
+	filePath="$HOME/Documents/bin/scripts/$filePath"
 fi
 
 # If doesn't exist
 if [[ ! -f "$filePath" ]]; then
-	echo "Provided file \"$filePath\" does not exist"
+	echo "Provided file \"$filePath\" does not exist" >&2
 	exit 1
 fi
 

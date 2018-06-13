@@ -9,10 +9,6 @@
 #
 # Behavior:
 #	Creates a file with execution permissions.
-#
-# Return Values:
-#	0:             Success
-#	Anything Else: Failure
 #?
 
 # Arguments

@@ -4,16 +4,21 @@
 #
 # Usage: wifi SHORTCUT
 #
-# ARGS:
-#	SHORTCUT: Name of wifi shortcut to connect to. Valid values:
+# Args:
+#	1. SHORTCUT: Name of wifi shortcut to connect to. Valid values:
 #		- summit
 #		- home
 #		- edu
 #		 
-#	scan: If the shortcut is named "scan" the script will scan for wifi
-#             networks.
-#	list: If the shortcut is named "list" the script will list all the 
-#	      known wifi networks.
+#	        scan: If the shortcut is named "scan" the script will scan for 
+#                     wifi networks.
+#
+#	        list: If the shortcut is named "list" the script will list all 
+#                     the known wifi networks.
+#
+# Behavior:
+#	If a shortcut name is specified:     Connects to a wifi network
+#	If a wifi command name is specified: Executes the special command
 #?
 svc=""
 case "$1" in
@@ -35,6 +40,10 @@ case "$1" in
 		echo "networks:"
 		connmanctl services wifi
 		exit 0
+		;;
+	--help|-h)
+		show-help "$0"
+		exit 1
 		;;
 	*)
 		echo "invalid wifi shortcut name"

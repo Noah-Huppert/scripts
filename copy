@@ -3,6 +3,18 @@
 # Noah Huppert - 10/21/17
 #
 #?
-# Copies stdin to the "normal" clipboard (access with ctrl+{c,v})
+# Copy - Copies stdin to the "normal" clipboard (access with ctrl+{c,v})
+#
+# Usage: copy < foo.txt OR cat foo.txt | copy
+#
+# Behavior:
+#	Sets the clipboard to the contents of stdin.
 #?
+
+# Help option
+if [[ "$1" =~ ^(--help|-h)$ ]]; then
+	show-help "$0"
+	exit 1
+fi
+
 xclip -selection clipboard
