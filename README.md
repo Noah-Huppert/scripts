@@ -22,7 +22,8 @@ A collection of useful Bash scripts.
 # Overview
 This repository provides numerous helpful bash scripts.  
 
-Place this repository in your `$PATH`.  
+Place this repository in the beginning your `$PATH` (Because the `paste` 
+command overrides GNU Paste).  
 
 The README contains a brief description of each script. For more detailed 
 usage information run a script with the `--help` (or `-h`) option.
