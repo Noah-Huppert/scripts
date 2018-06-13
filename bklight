@@ -2,16 +2,29 @@
 #?
 # BkLight - Controls the screen backlight.
 #
+# SETUP
+# 	Steps were sourced from this SO answer: https://unix.stackexchange.com/questions/337663/how-to-write-to-sys-with-a-script-after-rebooting-sudo/337671#337671
+#
+#	To allow user's to invoke the bklight script without typing their 
+#	password every time do the following:  
+#
+#	1. Make a file called `/etc/sudoers.d/bklight`  
+#	2. Enter the contents:  
+#	```
+#	user ALL=(ALL) NOPASSWD:/home/user/Documents/bin/scripts/bklight
+#	```
+#	Be sure to replace `user` (2 occurances) with your username.
+#
 # CONFIGURATION
 #	Uses environment variables prefixed with DOTRC_BKLIGHT for 
 #	configuration.
 #
-# 	DOTRC_BKLIGHT_CTRL_FILE (String): File path to backlight hardware 
-#					  control file.
-# 	DOTRC_BKLIGHT_MAX_FILE (String): File path which holds the max raw 
-#					 hardware value.
-#	DOTRC_BKLIGHT_INCREMENT (Int): Percentage to add or subtract 
-#				       when using the increment command.
+# 	DOTRC_BKLIGHT_CTRL_FILE (String):    File path to backlight hardware 
+#					     control file.
+# 	DOTRC_BKLIGHT_MAX_FILE (String):     File path which holds the max raw 
+#					     hardware value.
+#	DOTRC_BKLIGHT_INCREMENT (Int):       Percentage to add or subtract 
+#				             when using the increment command.
 #
 # USAGE
 #	bklight COMMAND [OPTIONS] <Sub-Args...>
@@ -23,13 +36,8 @@
 #		[0, 100]. And will set the backlight to this percent.
 #
 # ARGUMENTS
-# 	1. COMMAND (string): Sub command to run. Available sub-commands are:
-#					- get
-#					- set
-#					- increment
-#			     If a value matching the regex /^-?-?[Hh]{1}(elp)?$/ 
-#			     is provided, this help text will be shown. Or if 
-#			     the value is empty help will be shown as well.
+# 	1. COMMAND (string): Sub command to run. See COMMANDS for valid values.
+#
 # OPTIONS
 #	--help,-h    Display help text
 #
@@ -90,19 +98,6 @@
 #					- +: Adds the value
 #					- -: Subtracts the value
 #		2. VALUE (int): Percent value to increment by. Optional.
-#
-# SETUP
-# 	Steps were sourced from this SO answer: https://unix.stackexchange.com/questions/337663/how-to-write-to-sys-with-a-script-after-rebooting-sudo/337671#337671).  
-#
-#	To allow user's to invoke the bklight script without typing their 
-#	password every time do the following:  
-#
-#	1. Make a file called `/etc/sudoers.d/bklight`  
-#	2. Enter the contents:  
-#	```
-#	user ALL=(ALL) NOPASSWD:/home/user/Documents/bin/scripts/bklight
-#	```
-#	Be sure to replace `user` (2 occurances) with your username.
 #?
 
 # Used internally by the program to refer to the different hardware value it 
