@@ -15,6 +15,7 @@ A collection of useful Bash scripts.
 - [m](#m)
 - [bkground](#bkground)
 - [wifi](#wifi)
+- [touchx](#touchx)
 
 # show-help
 Prints the text in the top comment of a script that is between two `#?` 
@@ -199,3 +200,6 @@ Args:
           wifi networks.
 - `list`: If the name of the shortcut is `list` the script will list all known 
 	  wireless networks.
+
+# Touchx
+Creates a file with execution privileges.

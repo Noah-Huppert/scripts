@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+#?
+# Touchx - Creates a file with execution privileges
+# 
+# Usage: touchx FILE
+#
+# Args:
+#	1. FILE (String): File to create
+#
+# Behavior:
+#	Creates a file with execution permissions.
+#
+# Return Values:
+#	0:             Success
+#	Anything Else: Failure
+#?
+
+# Arguments
+file="$1"
+if [ -z "$file" ]; then
+	echo "Error: file argument must be provided" >&2
+	show-help "$0"
+	exit 1
+elif [[ "$file" =~ ^(--help|-h)$ ]]; then
+	show-help "$0"
+	exit 1
+fi
+
+# Create file
+touch "$file"
+chmod +x "$file"
