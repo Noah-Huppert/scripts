@@ -11,11 +11,15 @@
 #		- home
 #		- edu
 #		 
-#	        scan: If the shortcut is named "scan" the script will scan for 
-#                     wifi networks.
+#	        scan: If the shortcut is "scan" the script will scan for wifi 
+#                     networks.
 #
-#	        list: If the shortcut is named "list" the script will list all 
-#                     the known wifi networks.
+#	        list: If the shortcut is "list" the script will list all the
+#                     known wifi networks.
+#
+#		*:    If the shortcut is any other value the script will try 
+#		      connecting to a connman service with the provided 
+#		      shortcut value.
 #
 # OPTIONS
 #	--help,-h    Display help text
@@ -42,7 +46,7 @@ case "$1" in
 		;;
 	list)
 		echo "networks:"
-		connmanctl services wifi
+		connmanctl services
 		exit 0
 		;;
 	--help|-h)
@@ -50,9 +54,9 @@ case "$1" in
 		exit 1
 		;;
 	*)
-		echo "invalid wifi shortcut name"
-		exit 1
+		svc="$1"
+		;;
 esac
 
-echo "connecting to $1"
+echo "connecting to $svc"
 connmanctl connect "$svc"
