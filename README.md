@@ -18,6 +18,7 @@ A collection of useful Bash scripts.
 	- [bkground](#bkground)
 	- [wifi](#wifi)
 	- [touchx](#touchx)
+	- [cgrep](#cgrep)
 
 # Overview
 This repository provides numerous helpful bash scripts.  
@@ -39,7 +40,7 @@ Controls the display backlight.
 Prints the ssl certificate for the provided URL.
 
 ## copy and paste
-The copy and paste scripts emulate the ctrl+{c,v} behavior in the shell.  
+The copy and paste scripts emulate the ctrl+{c,v} behavior in the shell.
 
 ## nvim-swap
 A script which clears any swap files nvim has made.
@@ -49,25 +50,28 @@ A script which opens a terminal in a floating window using bspwm.
 
 ## local-dns
 A tool which modifies your `/etc/hosts` file to give you local domains for 
-quick development.  
+quick development.
 
 ## fix
-Fixes terminal after outputting binary garbage.  
+Fixes terminal after outputting binary garbage.
 
 ## todo
-Shows todo notes in source files.  
+Shows todo notes in source files.
 
 ## x
-Kills current terminal.  
+Kills current terminal.
 
 ## m
-Make shortcut.  
+Make shortcut.
 
 ## bkground
-Sets the desktop background with feh.  
+Sets the desktop background with feh.
 
 ## wifi
-Shortcut for reconnecting to wifi.  
+Shortcut for reconnecting to wifi.
 
 ## Touchx
 Creates a file with execution privileges.
+
+## cgrep
+Grep with color argument.
