@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+#?
+# cgrep - Color grep
+#
+# USAGE
+#	cgrep GREP_ARGS...
+#
+# OPTIONS
+#	--help,-h    Show help text
+#
+# ARGUMENTS
+#	1. GREP_ARGS: Arguments for grep
+#
+# BEHAVIOR
+#	Runs grep with the `--color=always` option
+#?
+
+# Help option
+if [[ "$1" =~ (--help|-h) ]]; then
+	show-help "$0"
+	exit 0
+fi
+
+# Color grep
+grep --color=always $@
+
