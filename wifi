@@ -31,7 +31,7 @@
 svc=""
 case "$1" in
 	summit)
-		svc="wifi_3052cb823a67_53756d6d69745f466c6f6f72735f31302d3234_managed_psk"
+		svc="wifi_3052cb823a67_5468652053756d6d6974_managed_psk"
 		;;
 	home)
 		svc="wifi_3052cb823a67_275f27_managed_psk"
