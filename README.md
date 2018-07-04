@@ -19,6 +19,7 @@ A collection of useful Bash scripts.
 	- [wifi](#wifi)
 	- [touchx](#touchx)
 	- [cgrep](#cgrep)
+	- [sx](#sx)
 
 # Overview
 This repository provides numerous helpful bash scripts.  
@@ -75,3 +76,6 @@ Creates a file with execution privileges.
 
 ## cgrep
 Grep with color argument.
+
+## sx
+StartX shortcut.

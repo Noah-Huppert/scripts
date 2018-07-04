@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#?
+# SX - Start X shortcut
+#
+# USAGE
+#	sx
+# 
+# OPTIONS
+#	--help,h	Show help text
+#
+# BEHAVIOR
+#	Starts X server
+#?
+
+# Help argument
+if [[ "$1" =~ ^(--help|-h)$ ]]; then
+	show-help "$0"
+	exit 0
+fi
+
+# Start x
+startx $@
