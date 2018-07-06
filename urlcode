@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+#?
+# urlcode - URL encoding utility
+# 
+# USAGE
+#   urlcode COMMAND
+#
+# ARGUMENTS
+#   1. COMMAND    Action to take, one of:
+#                    - encode
+#                    - decode
+# 
+# OPTIONS
+#   --help,-h    Show help text
+#
+# BEHAVIOR
+#   URL encodes or decodes a string passed via stdin
+#?
+
+# Help option
+if [[ "$1" =~ ^(--help|-h)$ ]]; then
+    show-help "$0"
+    exit 1
+fi
+
+# Command
+cmd="$1"
+if [ -z "$cmd" ]; then
+    echo "Error: command argument must be provided" >&2
+    exit 1
+fi
+
+if [[ "$cmd" == "encode" ]]; then
+    cat - | python3 -c "import sys, urllib.parse as ul; [sys.stdout.write(ul.quote_plus(l)) for l in sys.stdin]"
+elif [[ "$cmd" == "decode" ]]; then
+    cat - | python3 -c "import sys, urllib.parse as ul; [sys.stdout.write(ul.unquote_plus(l)) for l in sys.stdin]"
+else
+    echo "Error: unknown command \"$cmd\"" >&2
+    exit 1
+fi

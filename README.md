@@ -20,6 +20,7 @@ A collection of useful Bash scripts.
 	- [touchx](#touchx)
 	- [cgrep](#cgrep)
 	- [sx](#sx)
+    - [urlcode](#urlcode)
 
 # Overview
 This repository provides numerous helpful bash scripts.  
@@ -79,3 +80,6 @@ Grep with color argument.
 
 ## sx
 StartX shortcut.
+
+## urlcode
+URL encoding utility.
