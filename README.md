@@ -20,7 +20,8 @@ A collection of useful Bash scripts.
 	- [touchx](#touchx)
 	- [cgrep](#cgrep)
 	- [sx](#sx)
-    - [urlcode](#urlcode)
+        - [urlcode](#urlcode)
+	- [onchanges](#onchanges)
 
 # Overview
 This repository provides numerous helpful bash scripts.  
@@ -83,3 +84,6 @@ StartX shortcut.
 
 ## urlcode
 URL encoding utility.
+
+## onchanges
+Runs a command when files change.

@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+#?
+# onchanges - Runs a command when files change
+#
+# USAGE
+#	onchange PATH CMD
+#
+# ARGUMENTS
+#	1. PATH    File or directory to watch for changes in
+#	2. CMD     Command to run when file system changes
+#
+# OPTIONS
+#	--help,-h    Show help text
+#
+# BEHAVIOR
+#	Runs the given command when files change in the path specified.
+#
+# INSTALLATION
+#	The inotify-tools package must be installed.
+#?
+
+# Help option
+if [[ "$1" =~ ^(--help|-h)$ ]]; then
+	show-help "$0"
+	exit 1
+fi
+
+# Arguments
+path="$1"
+if [ -z "$path" ]; then
+	echo "Error: path argument must be provided" >&2
+	exit 1
+fi
+
+cmd="$2"
+if [ -z "$cmd" ]; then
+	echo "Error: cmd argument must be provided" >&2
+	exit 1
+fi
+
+# Wait
+while true; do
+	inotifywait -e modify \
+		    -e attrib \
+		    -e move \
+		    -e create\
+		    -e delete \
+		    "$path"
+	$cmd
+done
