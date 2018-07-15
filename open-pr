@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+#?
+# USAGE:
+#	open-pr [--upstream UPSTREAM_BRANCH] [--current CURRENT_BRANCH]
+#
+# ARGUMENTS:
+#	--help,-h          Show help text
+#
+#	[--upstream/-u]    Upstream branch to create PR for, default 
+#			   to "master"
+#
+#       [--current/-c]     Local branch to create PR for, default to the 
+#                          current branch
+#
+# CONFIGURATION:
+#	opener            Link open command on your system, for OSX it is 
+#                         "open" for most linux systems it is "xdg-open"
+#
+#       upstream_owner    Owner of upstream repository to open PR for
+#
+#       self_owner        Your GitHub username
+#
+# BEHAVIOR
+# 	Opens a GitHub pull request.
+#?
+
+# Configuration
+opener=xdg-open
+
+upstream_owner=Noah-Huppert
+self_owner=Noah-Huppert
+
+repo_name=$(basename `git remote get-url origin` | sed -e 's/.git//')
+
+# Args
+upstream_branch=master
+self_branch=$(git rev-parse --abbrev-ref HEAD)
+
+
+while [[ ! -z "$1" ]]; do
+    key="$1"
+    shift
+
+    case "$key" in
+	--help|-h)
+		show-help "$0"
+		exit 1
+		;;
+        --upstream|-u)
+		upstream_branch="$1"
+                shift
+                ;;
+        --current|-c)
+                self_branch="$1"
+                shift
+                ;;
+        *)
+                echo "Unknown argument: $key" >&2
+                exit 1
+                ;;
+    esac
+done
+
+# Open URL
+echo "Opening PR URL for $upstream_owner/${repo_name}:$upstream_branch -> $self_owner/${repo_name}:$self_branch"
+pr_url="https://github.com/$upstream_owner/$repo_name/compare/$upstream_branch...$self_owner:$self_branch"
+
+"$opener" "$pr_url"

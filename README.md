@@ -22,6 +22,7 @@ A collection of useful Bash scripts.
 	- [sx](#sx)
         - [urlcode](#urlcode)
 	- [onchanges](#onchanges)
+	- [open-pr](#open-pr)
 
 # Overview
 This repository provides numerous helpful bash scripts.  
@@ -87,3 +88,6 @@ URL encoding utility.
 
 ## onchanges
 Runs a command when files change.
+
+## open-pr
+Opens a GitHub pull request.
