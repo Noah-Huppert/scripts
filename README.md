@@ -20,7 +20,7 @@ A collection of useful Bash scripts.
 	- [touchx](#touchx)
 	- [cgrep](#cgrep)
 	- [sx](#sx)
-        - [urlcode](#urlcode)
+	- [urlcode](#urlcode)
 	- [onchanges](#onchanges)
 	- [open-pr](#open-pr)
 
