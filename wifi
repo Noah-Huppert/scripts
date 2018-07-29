@@ -58,5 +58,10 @@ case "$1" in
 		;;
 esac
 
+if [ -z "$svc" ]; then
+	echo "Error: service argument must be provided" >&2
+	exit 1
+fi
+
 echo "connecting to $svc"
 connmanctl connect "$svc"
