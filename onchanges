@@ -45,6 +45,6 @@ while true; do
 		    -e move \
 		    -e create\
 		    -e delete \
-		    "$path"
+		    -r $path
 	$cmd
 done
