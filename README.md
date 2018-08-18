@@ -23,6 +23,7 @@ A collection of useful Bash scripts.
 	- [urlcode](#urlcode)
 	- [onchanges](#onchanges)
 	- [open-pr](#open-pr)
+	- [vimx](#vimx)
 
 # Overview
 This repository provides numerous helpful bash scripts.  
@@ -91,3 +92,6 @@ Runs a command when files change.
 
 ## open-pr
 Opens a GitHub pull request.
+
+## vimx
+Creates and opens a file for editing with execution permissions.
