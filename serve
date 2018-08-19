@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#?
+# serve - Local HTTP server
+#
+# USAGE
+#	serve [PORT]
+#
+# ARGUMENTS
+#	1. PORT    Port to serve content on, defaults to 8000
+#
+# OPTIONS
+#	--help,-h    Shows help text
+#
+# BEHAVIOR
+#	Starts a HTTP server to serve content in the working directory on the 
+#	specified port.
+#
+#	Uses Python 3's `http.server` module
+#?
+
+# Check for help argument
+if [[ "$1" =~ (--help|-h) ]]; then
+	show-help "$0"
+fi
+
+# Arguments
+port="$1"
+if [ -z "$port" ]; then
+	port="8000"
+fi
+
+# Serve
+python3 -m http.server "$port"
+

@@ -24,6 +24,7 @@ A collection of useful Bash scripts.
 	- [onchanges](#onchanges)
 	- [open-pr](#open-pr)
 	- [vimx](#vimx)
+	- [serve](#serve)
 
 # Overview
 This repository provides numerous helpful bash scripts.  
@@ -95,3 +96,6 @@ Opens a GitHub pull request.
 
 ## vimx
 Creates and opens a file for editing with execution permissions.
+
+## serve
+Local HTTP server using Python 3's `http.server` module.
