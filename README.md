@@ -25,6 +25,7 @@ A collection of useful Bash scripts.
 	- [open-pr](#open-pr)
 	- [vimx](#vimx)
 	- [serve](#serve)
+	- [snip](#snip)
 
 # Overview
 This repository provides numerous helpful bash scripts.  
@@ -99,3 +100,6 @@ Creates and opens a file for editing with execution permissions.
 
 ## serve
 Local HTTP server using Python 3's `http.server` module.
+
+## snip
+Select an area of the screen and take a screen shot.

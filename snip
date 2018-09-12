@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+#?
+# snip - Select an area of the screen and take a screen shot
+# 
+# USAGE
+#	snip [OUT_FILE]
+#
+# ARGUMENTS
+#	1. OUT_FILE    (Optional) File to save the screen shot to. If no value
+#		       is provided the screen shot is saved in the default 
+#		       screen shot directory in the following format:
+#
+#		           <default dir>/%Y-%m-%d-%k-%M-%S.png
+#
+#                      See [strftime formatting rules](http://strftime.net/) 
+#                      for information about how the date and time 
+#		       is formatted.
+#
+# OPTIONS
+#	--help,-h    Show help text
+#
+# CONFIGURATION
+#	The default screen shot directory is the location screen shots will be 
+# 	saved in if no OUT_FILE is specified. If a custom default screen shot 
+# 	directory value is not provided it will be the user's home directory.
+#	
+#	A default screen shot directory can be configured by setting the 
+#	SNIP_DEFAULT_OUT environment variable.
+#
+# BEHAVIOR
+#	Allows the user to select an area of their screen, and takes a 
+#	screen shot of that area.
+#?
+
+# Set default screen shot dir if not set
+if [ -z "$SNIP_DEFAULT_OUT" ]; then
+	SNIP_DEFAULT_OUT="$HOME"
+fi
+
+# Parse arguments
+while [ ! -z "$1" ]; do
+	if [[ "$1" =~ (--help|-h) ]]; then
+		show-help "$0"
+		exit 1
+	else
+		out_file="$1"
+		shift
+	fi
+done
+
+# Set out file if none provided
+if [ -z "$out_file" ]; then
+	out_date_part=$(date +"%Y-%m-%d-%k-%M-%S")
+	out_file="$SNIP_DEFAULT_OUT/$out_date_part.png"
+fi
+
+# Screen shot
+echo "Will save screenshot to $out_file"
+import "$out_file"
