@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#?
+# bloop - Play bloop noise
+#
+# USAGE
+#	bloop
+#
+# OPTIONS
+#	--help,-h    Show help text
+#
+# BEHAVIOR
+#	Play bloop noise
+#?
+
+# Help argument
+if [[ "$1" =~ (--help|-h) ]]; then
+	show-help "$0"
+	exit 1
+fi
+
+mpg123 "$(dirname $0)/data/bloop.mp3" &> /dev/null
