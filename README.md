@@ -26,6 +26,7 @@ A collection of useful Bash scripts.
 	- [vimx](#vimx)
 	- [serve](#serve)
 	- [snip](#snip)
+	- [bloop](#bloop)
 
 # Overview
 This repository provides numerous helpful bash scripts.  
@@ -103,3 +104,6 @@ Local HTTP server using Python 3's `http.server` module.
 
 ## snip
 Select an area of the screen and take a screen shot.
+
+## bloop
+Play bloop noise
