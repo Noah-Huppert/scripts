@@ -39,6 +39,9 @@ case "$1" in
 	edu)
 		svc="wifi_3052cb823a67_656475726f616d_managed_ieee8021x"
 		;;
+	omega)
+		svc="wifi_3052cb823a67_4f6d6567612d30413042_managed_psk"
+		;;
 	scan)
 		echo "scanning"
 		connmanctl scan wifi
