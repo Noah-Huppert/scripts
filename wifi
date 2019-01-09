@@ -7,9 +7,10 @@
 #
 # ARGUMENTS
 #	1. SHORTCUT: Name of wifi shortcut to connect to. Valid values:
-#		- summit
 #		- home
+#		- omega
 #		- edu
+#		- umass
 #		 
 #	        scan: If the shortcut is "scan" the script will scan for wifi 
 #                     networks.
@@ -30,17 +31,17 @@
 #?
 svc=""
 case "$1" in
-	summit)
-		svc="wifi_3052cb823a67_5468652053756d6d6974_managed_psk"
-		;;
 	home)
-		svc="wifi_3052cb823a67_275f27_managed_psk"
+		svc="wifi_3052cb823a67_4b61746c612d3547_managed_psk"
 		;;
 	edu)
 		svc="wifi_3052cb823a67_656475726f616d_managed_ieee8021x"
 		;;
 	omega)
 		svc="wifi_3052cb823a67_4f6d6567612d30413042_managed_psk"
+		;;
+	umass)
+		svc="wifi_3052cb823a67_554d415353_managed_none"
 		;;
 	scan)
 		echo "scanning"
