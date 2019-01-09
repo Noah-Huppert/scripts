@@ -27,6 +27,7 @@ A collection of useful Bash scripts.
 	- [serve](#serve)
 	- [snip](#snip)
 	- [bloop](#bloop)
+	- [pylab](#pylab)
 
 # Overview
 This repository provides numerous helpful bash scripts.  
@@ -107,3 +108,6 @@ Select an area of the screen and take a screen shot.
 
 ## bloop
 Play bloop noise
+
+## pylab
+Start Jupyter Lab without a password.
