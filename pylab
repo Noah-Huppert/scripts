@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+#?
+# pylab - Starts Jupyter Lab with no password
+#
+# USAGE
+#	pylab
+#
+# OPTIONS
+#	--help,-h    Show help text
+#
+# BEHAVIOR
+#	Start Jupyter Lab without a password
+#?
+
+# Help argument
+if [[ "$1" =~ (--help|-h) ]]; then
+	show-help "$0"
+	exit 1
+fi
+
+jupyter lab \
+	--ip='*' \
+	--NotebookApp.token='' \
+	--NotebookApp.password=''
