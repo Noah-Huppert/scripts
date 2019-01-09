@@ -22,4 +22,4 @@ if [[ "$1" =~ ^(--help|-h)$ ]]; then
 fi
 
 # Find todo notes
-grep -n --exclude-dir vendor --color "TODO" -R .
+grep -rn --exclude-dir vendor --color "TODO" .
