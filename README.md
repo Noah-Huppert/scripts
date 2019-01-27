@@ -28,6 +28,7 @@ A collection of useful Bash scripts.
 	- [snip](#snip)
 	- [bloop](#bloop)
 	- [pylab](#pylab)
+	- [mode](#mode)
 
 # Overview
 This repository provides numerous helpful bash scripts.  
@@ -111,3 +112,6 @@ Play bloop noise
 
 ## pylab
 Start Jupyter Lab without a password.
+
+## mode
+Show file mode.

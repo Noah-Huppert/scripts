@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+#?
+# mode - Show file mode
+#
+# USAGE
+#
+#	mode [FILES] [--help,-h]
+#
+# ARGUMENTS
+#
+#	FILES    (Optional) Files to display mode of, if not provided will show
+#	         all files in working directory
+#
+# OPTIONS
+#
+#	--help,-h    Print help text
+#
+# BEHAVIOR
+#	
+# 	Uses stat to determine file mode.
+#
+#	Found on: https://stackoverflow.com/a/1796202
+#?
+
+# Help argument
+if [[ "$1" =~ (--help|-h) ]]; then
+	show-help "$0"
+	exit 1
+fi
+
+# Check files argument
+if [ -z "$1" ]; then
+	files=*
+else
+	files="$1"
+fi
+
+# Stat
+if ! stat -c '%a %n' $files; then
+	echo "Error: Failed to stat $files" >&2
+	exit 1
+fi
