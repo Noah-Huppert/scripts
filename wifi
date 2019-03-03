@@ -135,7 +135,7 @@ elif [[ "$mode" == "$mode_connect" ]]; then
 	# {{{2 If not raw mode
 	if [ -z "$raw" ]; then
 		# {{{3 Check if network name a shortcut
-		case "$shortcut" in 
+		case "$name" in 
 			"$shortcut_home")
 				shortcut_name="$shortcut_home_name"
 				;;
