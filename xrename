@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+#?
+# xrename - Rename X window
+#
+# USAGE
+#
+#	xrename OPTIONS
+#
+# OPTIONS
+#
+#	-n NAME    New window name
+#	-s         (Optional) Instead of renaming current window, renamed 
+#	           window selected by mouse
+#	-h         Show help text
+#
+# BEHAVIOR
+#
+#	By default renames the window the command was run in.  
+#
+#	If the -s option is provided renames the window which the user 
+#	selects with their mouse.
+#
+#?
+
+# {{{1 Exit on any error
+set -e
+
+# {{{1 Options
+# {{{2 Get
+while getopts "n:sh" opt; do
+	case "$opt" in
+		n) name="$OPTARG" ;;
+		s) select="true" ;;
+		h)
+			show-help "$0"
+			exit 1
+			;;
+		'?')
+			echo "Error: Unknown option \"$opt\"" >&2
+			exit 1
+			;;
+	esac
+done
+
+# {{{2 Verify
+# {{{3 name
+if [ -z "$name" ]; then
+	echo "Error: -n NAME option required" >&2
+	exit 1
+fi
+
+# {{{1 Rename
+if [ -z "$select" ]; then # Current window
+	if ! xdotool set_window --name "$name" $(xdotool getactivewindow); then
+		echo "Error: Failed to rename current window" >&2
+		exit 1
+	fi
+else # Select window
+	echo "Select window to rename"
+
+	if ! xdotool selectwindow set_window --name "$name"; then
+		echo "Error: Failed to rename selected window" >&2
+		exit 1
+	fi
+fi
+
+echo "Renamed to $name"

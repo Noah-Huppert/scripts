@@ -29,6 +29,7 @@ A collection of useful Bash scripts.
 	- [bloop](#bloop)
 	- [pylab](#pylab)
 	- [mode](#mode)
+	- [xrename](#xrename)
 
 # Overview
 This repository provides numerous helpful bash scripts.  
@@ -115,3 +116,6 @@ Start Jupyter Lab without a password.
 
 ## mode
 Show file mode.
+
+## xrename
+Rename X window.
