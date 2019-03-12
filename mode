@@ -4,7 +4,7 @@
 #
 # USAGE
 #
-#	mode [FILES] [--help,-h]
+#	mode [FILES...] [--help,-h]
 #
 # ARGUMENTS
 #
@@ -29,14 +29,20 @@ if [[ "$1" =~ (--help|-h) ]]; then
 fi
 
 # Check files argument
-if [ -z "$1" ]; then
-	files=*
-else
-	files="$1"
+files=()
+while [ ! -z "$1" ]; do
+	files+=("$1")
+	shift
+done
+
+if [ -z "$files" ]; then
+	files=(*)
 fi
 
 # Stat
-if ! stat -c '%a %n' $files; then
-	echo "Error: Failed to stat $files" >&2
-	exit 1
-fi
+for file in ${files[@]}; do
+	if ! stat -c '%a %n' $file; then
+		echo "Error: Failed to stat $file" >&2
+		exit 1
+	fi
+done
