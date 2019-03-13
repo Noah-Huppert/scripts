@@ -40,8 +40,8 @@ if [ -z "$files" ]; then
 fi
 
 # Stat
-for file in ${files[@]}; do
-	if ! stat -c '%a %n' $file; then
+for file in "${files[@]}"; do
+	if ! stat -c '%a %n' "$file"; then
 		echo "Error: Failed to stat $file" >&2
 		exit 1
 	fi
