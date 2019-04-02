@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+#?
+# read-out - Read the provided text out loud with a pause between each letter
+#
+# USAGE
+#
+# 	echo "TEXT" | read-out OPTIONS
+#
+# OPTIONS
+#
+#	-t TIME    (Optional) Seconds between each letter, defaults to 0.3
+#	-h         Show help text
+#
+# BEHAVIOR
+#
+#	Splits text by the letter and reads out each letter with a pause 
+#	in between.
+#
+# DEPENDENCIES
+#
+#	Requires espeak.
+#
+#?
+
+# {{{1 Exit on any error
+set -e
+
+# {{{1 Configuration
+between_time="0.3"
+
+# {{{1 Helpers
+function die() {
+	echo "Error: $@" >&2
+	exit 1
+}
+
+# {{{1 Check for dependencies
+if ! which espeak &>/dev/null; then
+	die "espeak must be installed"
+fi
+
+# {{{1 Options
+while getopts "t:h" opt; do
+	case "$opt" in
+		t) between_time="$OPTARG" ;;
+		h)
+			show-help "$0"
+			exit 1
+			;;
+		'?') die "Unknown option" ;;
+	esac
+done
+
+# {{{1 Speak
+while read letter; do
+	echo "$letter" | espeak
+	sleep "$between_time"
+done <<< $(cat - | grep -o .)

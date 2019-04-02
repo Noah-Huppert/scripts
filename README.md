@@ -30,6 +30,7 @@ A collection of useful Bash scripts.
 	- [pylab](#pylab)
 	- [mode](#mode)
 	- [xrename](#xrename)
+	- [read-out](#read-out)
 
 # Overview
 This repository provides numerous helpful bash scripts.  
@@ -119,3 +120,6 @@ Show file mode.
 
 ## xrename
 Rename X window.
+
+## read-out
+Read text out letter by letter.
