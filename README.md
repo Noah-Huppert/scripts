@@ -30,15 +30,21 @@ A collection of useful Bash scripts.
 	- [mode](#mode)
 	- [xrename](#xrename)
 	- [read-out](#read-out)
+- [Functions](#functions)
+    - [mcdir](#mcdir)
 
 # Overview
-This repository provides numerous helpful bash scripts.  
+This repository provides numerous helpful bash scripts and functions.  
 
+The README contains a brief description of each script and function. For more 
+detailed usage information run a script or function with the `-h` option.
+
+# Install
 Place this repository in the beginning your `$PATH` (Because the `paste` 
 command overrides GNU Paste).  
 
-The README contains a brief description of each script. For more detailed 
-usage information run a script with the `--help` (or `-h`) option.
+Then source the `load-functions.sh` file in your shell profile. This will load 
+the custom bash functions into your shell.
 
 # Commands
 ## show-help
@@ -119,3 +125,7 @@ Rename X window.
 
 ## read-out
 Read text out letter by letter.
+
+# Functions
+## mcdir
+Create and cd into directory.

@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+#?
+# mcdir - Make and cd into directory
+#
+# USAGE
+#
+#    mcdir DIR
+#
+# ARGUMENTS
+#
+#    DIR    Directory create
+#
+#?
+
+function mcdir() {
+    # {{{1 Arguments
+    dir="$1"
+    if [ -z "$dir" ]; then
+	echo "Error: DIR argument must be provided" >&2
+	return 1
+    fi
+
+    # {{{2 If help
+    if [[ "$dir" == "-h" ]]; then
+	show-help "$function_file"
+	return 1
+    fi
+
+    # {{{1 Make and cd
+    mkdir -p "$dir"
+    cd "$dir"
+}
