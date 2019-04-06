@@ -5,7 +5,6 @@ A collection of useful Bash scripts.
 - [Overview](#overview)
 - [Commands](#commands)
 	- [show-help](#show-help)
-	- [bklight](#bklight)
 	- [sslinfo](#sslinfo)
 	- [copy and paste](#copy-and-paste)
 	- [nvim-swap](#nvim-swap)
@@ -44,9 +43,6 @@ usage information run a script with the `--help` (or `-h`) option.
 # Commands
 ## show-help
 Prints the help text in the top comment of a script.
-
-## bklight
-Controls the display backlight.
 
 ## sslinfo
 Prints the ssl certificate for the provided URL.
