@@ -29,6 +29,7 @@ A collection of useful Bash scripts.
 	- [mode](#mode)
 	- [xrename](#xrename)
 	- [read-out](#read-out)
+	- [edit](#edit)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 
@@ -122,6 +123,8 @@ Rename X window.
 ## read-out
 Read text out letter by letter.
 
+## edit
+Edit file with `$EDITOR`.
 # Functions
 ## mcdir
 Create and cd into directory.
