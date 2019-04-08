@@ -22,7 +22,6 @@ A collection of useful Bash scripts.
 	- [urlcode](#urlcode)
 	- [onchanges](#onchanges)
 	- [open-pr](#open-pr)
-	- [vimx](#vimx)
 	- [serve](#serve)
 	- [snip](#snip)
 	- [bloop](#bloop)
@@ -101,9 +100,6 @@ Runs a command when files change.
 
 ## open-pr
 Opens a GitHub pull request.
-
-## vimx
-Creates and opens a file for editing with execution permissions.
 
 ## serve
 Local HTTP server using Python 3's `http.server` module.
