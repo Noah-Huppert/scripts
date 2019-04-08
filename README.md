@@ -30,6 +30,7 @@ A collection of useful Bash scripts.
 	- [xrename](#xrename)
 	- [read-out](#read-out)
 	- [edit](#edit)
+	- [editx](#editx)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 
@@ -125,6 +126,10 @@ Read text out letter by letter.
 
 ## edit
 Edit file with `$EDITOR`.
+
+## editx
+Give file execute permissions and edit with `$EDITOR`.
+
 # Functions
 ## mcdir
 Create and cd into directory.

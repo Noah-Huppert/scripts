@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+#?
+# editx - Ensure file has execute permissions then edit with $EDITOR
+#
+# USAGE
+#
+#    editx FILES...
+#
+# ARGUMENTS
+#
+#
+#    FILES    Files to add execute permissions to and open
+#
+# BEHAVIOR
+#
+#    For each file specified create, add execute permissions, and open with $EDITOR
+#
+#?
+
+# {{{1 Exit on any error
+set -e
+
+# {{{1 Helpers
+function die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+# {{{1 Put files into array
+files=()
+
+while [ -n "$1" ]; do
+    files+=("$1")
+    shift
+done
+
+# {{{1 For each file create, chmod +x
+for file in "${files[@]}"; do
+    # {{{1 If file doesn't exist create
+    if [ ! -f "$file" ]; then
+	if ! touch "$file"; then
+	    die "Failed to create $file file"
+	fi
+    fi
+
+    # {{{1 Set execute permission
+    if ! chmod +x "$file"; then
+	die "Failed to set execute permissions on $file file"
+    fi
+done
+
+# {{{1 Open in editor
+exec "$EDITOR" "${files[@]}"
