@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+#?
+# md2pdf - Convert markdown file to PDF
+#
+# USAGE
+#
+#    md2pdf OPTIONS [FILES...]
+#
+# OPTIONS
+#
+#    -h Show help text
+#
+# ARGUMENTS
+#
+#    FILES...    (Optional) Files to convert. Defaults to all markdown files in directory
+#
+# BEHAVIOR
+#
+#    Uses pandoc to convert files to PDF files.
+#
+#?
+
+# {{{1 Helpers
+function die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+# {{{1 Check pandoc is installed
+if ! which pandoc &> /dev/null; then
+    die "Pandoc must be installed"
+fi
+
+# {{{1 Options
+while getopts "h" opt; do
+    case "$opt" in
+	h)
+	    show-help "$0"
+	    exit 1
+	    ;;
+	'?') die "Unknown option" ;;
+    esac
+done
+
+# {{{1 Arguments
+# {{{2 Get
+files=()
+
+while [ -n "$1" ]; do
+    # {{{2 Check file exists
+    if [ ! -f "$1" ]; then
+	die "File \"$1\" doesn't exist"
+    fi
+
+    files+=("$1")
+    shift
+done
+
+# {{{2 Default to md files in wrkdir
+if [ -z "$files" ]; then
+    while read -r f; do
+	files+=("$f")
+    done <<< $(find . -name '*.md' -type f)
+fi
+
+# {{{1 Convert
+for f in "${files[@]}"; do
+    name="${f%.*}"
+
+    if ! pandoc -o "$name.pdf" "$name.md"; then
+	die "Failed to convert file \"$f\""
+    fi
+done
