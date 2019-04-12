@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+#?
+# logs - Display system logs from socklog with LNav
+#
+# USAGE
+#
+#    logs OPTIONS [GROUP]
+#
+# OPTIONS
+#
+#    -h    Show help
+#    -l    List log groups and exit
+#
+# ARGUMENTS
+#
+#    GROUP    (Optional) Log group to display, defaults to 'everything'
+#
+# BEHAVIOR
+#
+#    Displays system logs from the specified group using LNav.
+#
+#    Expects logs to be in the directory /var/log/socklog/GROUP/current
+#
+#?
+
+# {{{1 Configuration
+logs_dir="/var/log/socklog"
+mode="view"
+group="everything"
+
+# {{{1 Helpers
+function die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+# {{{1 Options
+while getopts "hl" opt; do
+    case "$opt" in
+	h) mode="help" ;;
+	l) mode="list" ;;
+	'?') die "Unknown option" ;;
+    esac
+done
+
+# {{{1 Arguments
+if [ -n "$1" ]; then
+    group="$1"
+    shift
+fi
+
+# {{{1 Help mode
+if [[ "$mode" == "help" ]]; then
+    show-help "$0"
+    exit 1
+fi
+
+# {{{1 List mode
+if [[ "$mode" == "list" ]]; then
+    if ! ls "$logs_dir"; then
+	die "Failed to list"
+    fi
+fi
+
+# {{{1 View mode
+if [[ "$mode" == "view" ]]; then
+    logs_file="$logs_dir/$group/current"
+
+    # {{{2 Check group exists
+    if [ ! -f "$logs_file" ]; then
+	die "Group \"$group\" does not exist"
+    fi
+
+    # {{{2 View
+    exec lnav "$logs_file"
+fi

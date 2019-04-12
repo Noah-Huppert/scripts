@@ -32,6 +32,7 @@ A collection of useful Bash scripts.
 	- [edit](#edit)
 	- [editx](#editx)
 	- [md2pdf](#md2pdf]
+	- [logs](#logs)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 
@@ -133,6 +134,9 @@ Give file execute permissions and edit with `$EDITOR`.
 
 ## md2pdf
 Convert markdown to PDF.
+
+## logs
+View socklog system logs.
 
 # Functions
 ## mcdir
