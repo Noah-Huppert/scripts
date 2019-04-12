@@ -32,7 +32,7 @@ A collection of useful Bash scripts.
 	- [read-out](#read-out)
 	- [edit](#edit)
 	- [editx](#editx)
-	- [md2pdf](#md2pdf]
+	- [md2pdf](#md2pdf)
 	- [logs](#logs)
 - [Functions](#functions)
     - [mcdir](#mcdir)
