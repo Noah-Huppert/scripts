@@ -7,7 +7,7 @@ A collection of useful Bash scripts.
 - [Commands](#commands)
 	- [show-help](#show-help)
 	- [sslinfo](#sslinfo)
-	- [copy and paste](#copy-and-paste)
+	- [xcopy and xpaste](#xcopy-and-xpaste)
 	- [nvim-swap](#nvim-swap)
 	- [fterm](#fterm)
 	- [local-dns](#local-dns)
@@ -44,10 +44,9 @@ The README contains a brief description of each script and function. For more
 detailed usage information run a script or function with the `-h` option.
 
 # Install
-Place this repository in the beginning your `$PATH` (Because the `paste` 
-command overrides GNU Paste).  
+Place this repository in your `$PATH`.
 
-Then source the `load-functions.sh` file in your shell profile. This will load 
+Source the `load-functions.sh` file in your shell profile. This will load 
 the custom bash functions into your shell.
 
 # Commands
@@ -57,8 +56,8 @@ Prints the help text in the top comment of a script.
 ## sslinfo
 Prints the ssl certificate for the provided URL.
 
-## copy and paste
-The copy and paste scripts emulate the ctrl+{c,v} behavior in the shell.
+## xcopy and xpaste
+The xcopy and xpaste scripts emulate the ctrl+{c,v} behavior in the shell.
 
 ## nvim-swap
 A script which clears any swap files nvim has made.

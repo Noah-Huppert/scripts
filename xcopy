@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 #?
-# Copy - Copies stdin to the "normal" clipboard (access with ctrl+{c,v})
+# xcopy - Copies stdin to the "normal" clipboard (access with ctrl+{c,v})
 #
 # USAGE
-#	copy [OPTIONS] < foo.txt
-#	cat foo.txt | copy [OPTIONS]
+#	xcopy [OPTIONS] < foo.txt
+#	cat foo.txt | xcopy [OPTIONS]
 #
 # OPTIONS
 #	--help,-h    Display help text
