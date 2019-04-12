@@ -10,8 +10,6 @@
 # 	1. FILE (string): Path of file to print help text of
 #
 # OPTIONS
-# 	--scripts,-s    If this flag is provided, show-help will look in the 
-#			$HOME/Documents/bin/scripts directory.
 #	--help,-h       Display help text
 #
 # BEHAVIOR
@@ -25,9 +23,6 @@
 # While more than one arg, process option and shift
 while [ ! -z "$1" ]; do
 	case "$1" in
-		--scripts|-s)
-			scriptsDirOption=true
-			;;
 		--help|-h)
 			show-help "$0"
 			exit 1
@@ -44,11 +39,6 @@ done
 if [ -z "$filePath" ]; then
 	echo "Error: File argument must be provided" >&2
 	exit 1
-fi
-
-# If file path should be in scripts dir, as described in help text
-if [[ "$scriptsDirOption" ]]; then
-	filePath="$HOME/Documents/bin/scripts/$filePath"
 fi
 
 # If doesn't exist
