@@ -3,6 +3,7 @@ A collection of useful Bash scripts.
 
 # Table Of Contents
 - [Overview](#overview)
+- [Install](#install)
 - [Commands](#commands)
 	- [show-help](#show-help)
 	- [sslinfo](#sslinfo)
