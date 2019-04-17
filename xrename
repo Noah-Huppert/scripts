@@ -4,11 +4,10 @@
 #
 # USAGE
 #
-#	xrename OPTIONS
+#	xrename OPTIONS NAME
 #
 # OPTIONS
 #
-#	-n NAME    New window name
 #	-s         (Optional) Instead of renaming current window, renamed 
 #	           window selected by mouse
 #	-h         Show help text
@@ -25,43 +24,46 @@
 # {{{1 Exit on any error
 set -e
 
+# {{{1 Helpers
+function die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
 # {{{1 Options
 # {{{2 Get
-while getopts "n:sh" opt; do
-	case "$opt" in
-		n) name="$OPTARG" ;;
-		s) select="true" ;;
-		h)
-			show-help "$0"
-			exit 1
-			;;
-		'?')
-			echo "Error: Unknown option \"$opt\"" >&2
-			exit 1
-			;;
-	esac
+while getopts "sh" opt; do
+    case "$opt" in
+	s)
+	    select="true"
+	    shift
+	    ;;
+	h)
+	    show-help "$0"
+	    exit 1
+	    ;;
+	'?') die "Unknown option" ;;
+    esac
 done
 
-# {{{2 Verify
-# {{{3 name
+# {{{1 Arguments
+name="$1"
+
 if [ -z "$name" ]; then
-	echo "Error: -n NAME option required" >&2
-	exit 1
+    die "NAME argument required"
 fi
 
 # {{{1 Rename
 if [ -z "$select" ]; then # Current window
-	if ! xdotool set_window --name "$name" $(xdotool getactivewindow); then
-		echo "Error: Failed to rename current window" >&2
-		exit 1
-	fi
+    if ! xdotool set_window --name "$name" $(xdotool getactivewindow); then
+	die "Failed to rename current window"
+    fi
 else # Select window
-	echo "Select window to rename"
+    echo "Select window to rename"
 
-	if ! xdotool selectwindow set_window --name "$name"; then
-		echo "Error: Failed to rename selected window" >&2
-		exit 1
-	fi
+    if ! xdotool selectwindow set_window --name "$name"; then
+	die "Failed to rename selected window"
+    fi
 fi
 
 echo "Renamed to $name"
