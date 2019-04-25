@@ -19,6 +19,5 @@ if [[ "$1" =~ (--help|-h) ]]; then
 fi
 
 jupyter lab \
-	--ip='*' \
 	--NotebookApp.token='' \
 	--NotebookApp.password=''
