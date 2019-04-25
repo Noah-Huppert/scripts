@@ -34,6 +34,7 @@ A collection of useful Bash scripts.
 	- [editx](#editx)
 	- [md2pdf](#md2pdf)
 	- [logs](#logs)
+	- [xtend](#xtend)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 
@@ -137,6 +138,9 @@ Convert markdown to PDF.
 
 ## logs
 View socklog system logs.
+
+## xtend
+Manage displays with xrandr.
 
 # Functions
 ## mcdir
