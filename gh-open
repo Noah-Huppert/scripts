@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+#?
+# gh-open - Open GitHub repository from command line
+#
+# USAGE
+#
+#    gh-open [-r REMOTE] [-h]
+#
+# OPTIONS
+#
+#    -r REMOTE    (Optional) Remote to open, defaults to "origin"
+#    -h           Show help text
+#
+# BEHAVIOR
+#
+#    Open GitHub repository in browser.
+#
+#?
+
+# {{{1 Configuration
+remote="origin"
+
+# {{{1 Helpers
+function die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+# {{{1 Options
+while getopts "r:h" opt; do
+    case "$opt" in
+	r) remote="$OPTARG" ;;
+	h)
+	    show-help "$0"
+	    exit 1
+	    ;;
+	'?') die "Unknown option" ;;
+    esac
+done
+
+# {{{1 Open
+# {{{2 Get remote URL
+url=$(git config --get "remote.$remote.url")
+
+if [[ "$?" != "0" ]]; then
+    die "Failed to get remote $remote URL"
+fi
+
+# {{{2 Translate SSH URLs to HTTPS
+if echo "$url" | grep "git@" &> /dev/null; then
+    url=$(echo "$url" | sed 's/git@\(.*\):\(.*\)/https:\/\/\1\/\2/g')
+
+    if [[ "$?" != "0" ]]; then
+	die "Failed to translate SSH remote URL to HTTPS url"
+    fi
+fi
+
+# {{{2 Remote .git
+url=$(echo "$url" | sed 's/^\(.*\)\.git$/\1/g')
+
+if [[ "$?" != "0" ]]; then
+    die "Failed to remove .git from end of remote URL"
+fi
+
+# {{{2 Open to branch if from GitHub
+if echo "$url" | grep "github.com" &> /dev/null; then
+    branch=$(git rev-parse --abbrev-ref HEAD)
+
+    if [[ "$?" != "0" ]]; then
+	die "Failed to get current Git branch"
+    fi
+    
+    url="$url/tree/$branch"
+fi
+
+xdg-open "$url"

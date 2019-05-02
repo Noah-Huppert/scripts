@@ -35,6 +35,7 @@ A collection of useful Bash scripts.
 	- [md2pdf](#md2pdf)
 	- [logs](#logs)
 	- [xtend](#xtend)
+    - [gh-open](#gh-open)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 
@@ -141,6 +142,9 @@ View socklog system logs.
 
 ## xtend
 Manage displays with xrandr.
+
+## gh-open
+Open GitHub repository from terminal.
 
 # Functions
 ## mcdir
