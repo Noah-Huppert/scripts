@@ -4,11 +4,12 @@
 #
 # USAGE
 #
-#    md2pdf OPTIONS [FILES...]
+#    md2pdf OPTIONS [FILES...] -- PANDOC_OPTS
 #
 # OPTIONS
 #
-#    -h Show help text
+#    -h             Show help text
+#    PANDOC_OPTS    Options which will be passed to Pandoc
 #
 # ARGUMENTS
 #
@@ -47,6 +48,12 @@ done
 files=()
 
 while [ -n "$1" ]; do
+    # {{{2 Check if extra options to pass to pandoc
+    if [[ "$1" == "--" ]]; then
+	shift
+	break
+    fi
+    
     # {{{2 Check file exists
     if [ ! -f "$1" ]; then
 	die "File \"$1\" doesn't exist"
@@ -67,7 +74,7 @@ fi
 for f in "${files[@]}"; do
     name="${f%.*}"
 
-    if ! pandoc -o "$name.pdf" "$name.md"; then
+    if ! pandoc -o "$name.pdf" "$name.md" "$@"; then
 	die "Failed to convert file \"$f\""
     fi
 done
