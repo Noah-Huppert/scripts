@@ -4,11 +4,12 @@
 #
 # USAGE
 #
-#    gh-open [-r REMOTE] [-h]
+#    gh-open [-r REMOTE,-b BRANCH,-h]
 #
 # OPTIONS
 #
-#    -r REMOTE    (Optional) Remote to open, defaults to "origin"
+#    -r REMOTE    Remote to open, defaults to "origin"
+#    -b BRANCH    Branch to open, defaults to current branch
 #    -h           Show help text
 #
 # BEHAVIOR
@@ -17,19 +18,24 @@
 #
 #?
 
-# {{{1 Configuration
-remote="origin"
-
 # {{{1 Helpers
 function die() {
     echo "Error: $@" >&2
     exit 1
 }
 
+# {{{1 Configuration
+remote="origin"
+branch=$(git rev-parse --abbrev-ref HEAD)
+if [[ "$?" != "0" ]]; then
+    die "Failed to get current branch"
+fi
+
 # {{{1 Options
-while getopts "r:h" opt; do
+while getopts "r:b:h" opt; do
     case "$opt" in
 	r) remote="$OPTARG" ;;
+	b) branch="$OPTARG" ;;
 	h)
 	    show-help "$0"
 	    exit 1
@@ -64,7 +70,7 @@ fi
 
 # {{{2 Open to branch if from GitHub
 if echo "$url" | grep "github.com" &> /dev/null; then
-    branch=$(git rev-parse --abbrev-ref HEAD)
+    
 
     if [[ "$?" != "0" ]]; then
 	die "Failed to get current Git branch"
