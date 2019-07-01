@@ -4,7 +4,7 @@
 #
 # USAGE
 #
-#    xtend OPTIONS CMD
+#    xtend OPTIONS ARGUMENTS
 #
 # OPTIONS
 #
@@ -12,11 +12,15 @@
 #
 # ARGUMENTS
 #
-#    CMD    Command to run, see COMMANDS section
+#    CMD          Command to run, see COMMANDS section
+#    PLACEMENT    If CMD is "up" specifies which direction to extend
+#                 display. Use Xrandr direction arguments. Default
+#                 is "--right-of". 
 #
 # COMMANDS
 #
-#    on     Turn on external display
+#    on     Turn on external display.
+#           
 #    off    Turn off external display
 #
 # BEHAVIOR
@@ -65,6 +69,7 @@ done
 
 # {{{1 Arguments
 CMD="$1"
+shift
 
 if [ -z "$CMD" ]; then
     die "CMD argument required"
@@ -77,7 +82,11 @@ fi
 # {{{1 Run command
 # {{{2 Run on command
 if [[ "$CMD" == "$CMD_ON" ]]; then
-    if ! xrandr --output "$XTEND_EXTERNAL_DISPLAY" --right-of "$XTEND_INTERNAL_DISPLAY" --auto; then
+    placement="$1"
+    if [ -z "$placement" ]; then
+	placement=--right-of
+    fi
+    if ! xrandr --output "$XTEND_EXTERNAL_DISPLAY" "$placement" "$XTEND_INTERNAL_DISPLAY" --auto; then
 	die "Failed to turn on external display"
     fi
 
