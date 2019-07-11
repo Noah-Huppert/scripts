@@ -36,6 +36,7 @@ A collection of useful Bash scripts.
 	- [logs](#logs)
 	- [xtend](#xtend)
     - [gh-open](#gh-open)
+	- [git-branches-rm](#git-branches-rm)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 
@@ -145,6 +146,9 @@ Manage displays with xrandr.
 
 ## gh-open
 Open GitHub repository from terminal.
+
+## git-branches-rm
+Remove all branches except the one which is currently checked out.
 
 # Functions
 ## mcdir

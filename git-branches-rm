@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+#?
+# git-branches-rm - Remove all branches except for the one which is currently checked out
+#
+# USAGE
+#
+#    git-branches-rm [-h]
+#
+# OPTIONS
+#
+#    -h    Show help text
+#
+#?
+
+# Helpers
+function die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+function bold() {
+    echo "$(tput bold)$@$(tput sgr0)"
+}
+
+# Options
+while getopts "h" opt; do
+    case "$opt" in
+	h)
+	    show-help "$0"
+	    exit 1
+	    ;;
+	?) die "Unknown option" ;;
+    esac
+done
+
+# Delete branches
+while read -r branch; do
+    # Remove any spaces from branch name
+    branch=$(echo "$branch" | sed 's/ //g')
+    if [[ "$?" != "0" ]]; then
+	die "Failed to remove spaces from \"$branch\" branch name"
+    fi
+    
+    # Skip currently checked out branch
+    if echo "$branch" | grep '*' &> /dev/null; then
+	continue
+    fi
+
+    if ! git branch -D "$branch"; then
+	die "Failed to delete \"$branch\""
+    fi
+
+    bold "Deleted \"$branch\""
+done <<< $(git branch)
+
+bold "Done"
