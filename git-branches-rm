@@ -34,6 +34,7 @@ while getopts "h" opt; do
 done
 
 # Delete branches
+none_deleted=true
 while read -r branch; do
     # Remove any spaces from branch name
     branch=$(echo "$branch" | sed 's/ //g')
@@ -50,7 +51,11 @@ while read -r branch; do
 	die "Failed to delete \"$branch\""
     fi
 
-    bold "Deleted \"$branch\""
+    none_deleted=false
 done <<< $(git branch)
 
-bold "Done"
+if [[ "$none_deleted" == "true" ]]; then
+    bold "No branches deleted"
+else
+    bold "Done"
+fi
