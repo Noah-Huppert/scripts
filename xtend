@@ -13,15 +13,17 @@
 # ARGUMENTS
 #
 #    CMD          Command to run, see COMMANDS section
-#    PLACEMENT    If CMD is "up" specifies which direction to extend
-#                 display. Use Xrandr direction arguments. Default
-#                 is "--right-of". 
+#    PLACEMENT    If CMD is "up" or "toggle" specifies which direction
+#                 to extend display. Use Xrandr direction arguments.
+#                 Default is "--right-of". 
 #
 # COMMANDS
 #
 #    on     Turn on external display.
 #           
 #    off    Turn off external display
+#
+#    toggle    If external display on -> turn off, if off -> turn on.
 #
 # BEHAVIOR
 #
@@ -41,6 +43,7 @@
 # {{{1 Configuration
 CMD_ON=on
 CMD_OFF=off
+CMD_TOGGLE=toggle
 
 if [ -z "$XTEND_EXTERNAL_DISPLAY" ]; then
     XTEND_EXTERNAL_DISPLAY=HDMI1
@@ -49,6 +52,9 @@ fi
 if [ -z "$XTEND_INTERNAL_DISPLAY" ]; then
     XTEND_INTERNAL_DISPLAY=eDP1
 fi
+
+export XTEND_EXTERNAL_DISPLAY
+export XTEND_INTERNAL_DISPLAY
 
 # {{{1 Helpers
 function die() {
@@ -67,40 +73,44 @@ while getopts "h" opt; do
     esac
 done
 
-# {{{1 Arguments
+# {{{1 Run command
 CMD="$1"
 shift
 
-if [ -z "$CMD" ]; then
-    die "CMD argument required"
-fi
+case "$CMD" in
+    on)
+	placement="$1"
+	if [ -z "$placement" ]; then
+	    placement=--right-of
+	fi
+	if ! xrandr --output "$XTEND_EXTERNAL_DISPLAY" "$placement" "$XTEND_INTERNAL_DISPLAY" --auto; then
+	    die "Failed to turn on external display"
+	fi
 
-if [[ "$CMD" != "$CMD_ON" && "$CMD" != "$CMD_OFF" ]]; then
-    die "CMD must be \"$CMD_ON\" or \"$CMD_OFF\""
-fi
+	echo "Turned on $XTEND_EXTERNAL_DISPLAY"
+	;;
+    off)
+	if ! xrandr --output "$XTEND_EXTERNAL_DISPLAY" --off; then
+	    die "Failed to turn off external display"
+	fi
 
-# {{{1 Run command
-# {{{2 Run on command
-if [[ "$CMD" == "$CMD_ON" ]]; then
-    placement="$1"
-    if [ -z "$placement" ]; then
-	placement=--right-of
-    fi
-    if ! xrandr --output "$XTEND_EXTERNAL_DISPLAY" "$placement" "$XTEND_INTERNAL_DISPLAY" --auto; then
-	die "Failed to turn on external display"
-    fi
-
-    echo "Turned on $XTEND_EXTERNAL_DISPLAY"
-fi
-
-# {{{2 Run off command
-if [[ "$CMD" == "$CMD_OFF" ]]; then
-    if ! xrandr --output "$XTEND_EXTERNAL_DISPLAY" --off; then
-	die "Failed to turn off external display"
-    fi
-
-    echo "Turned off $XTEND_EXTERNAL_DISPLAY"
-fi
+	echo "Turned off $XTEND_EXTERNAL_DISPLAY"
+	;;
+    toggle)
+	echo "Toggle"
+	# If external display on
+	if ! xrandr | grep "$XDG_EXTERNAL_DISPLAY" &> /dev/null; then
+	    echo "Extended, turning off"
+	    $0 off
+	else # If off
+	    echo "Not extended, turning on"
+	    $0 on "$@"
+	fi
+	;;
+    *)
+	die "Unknown CMD \"$CMD\""
+	;;
+esac
 
 # {{{1 Run hooks
 if [ -z "$XDG_CONFIG_HOME" ]; then
