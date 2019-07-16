@@ -16,8 +16,7 @@
 functions_dir="$(realpath $(dirname "$0"))/functions"
 
 # {{{1 Load functions
-for function_file_name in mcdir; do
-    function_file="$functions_dir/$function_file_name"
+for function_file in $(find "$functions_dir" -type f -executable); do
     
     . "$function_file"
 done
