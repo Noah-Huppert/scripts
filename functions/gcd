@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+#?
+# gcd - Git clone and cd into directory
+#
+# USAGE
+#
+#    gcd [-h] REPO [DIR]
+#
+# OPTIONS
+#
+#    -h    Show help text
+#
+# ARGUMENTS
+#
+#    REPO    Remote repository URI to clone
+#    DIR     (Optional) Directory to clone into, defaults to remote repository name
+#
+# BEHAVIOR
+#
+#    Clones git repository and changes into cloned repository directory.
+#
+#?
+
+function gcd() {
+    # Options
+    while getopts "h" opt; do
+	case "$opt" in
+	    h)
+		show-help "$function_file"
+		return 1
+		;;
+	    ?)
+	        echo "Error: Unknown option" >&2
+	        return 1
+	    ;;
+	esac
+    done
+
+    # Arguments
+    REPO="$1"
+    if [ -z "$REPO" ]; then
+	echo "Error: REPO argument required" >&2
+	return 1
+    fi
+
+    DIR="$2"
+    if [ -z "$DIR" ]; then
+	DIR=$(basename "$REPO")
+	DIR="${DIR%.*}"
+    fi
+
+    # Clone
+    if ! git clone "$REPO" "$DIR"; then
+	echo "Error: Failed to clone" >&2
+	return 1
+    fi
+
+    cd "$DIR"
+}

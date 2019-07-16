@@ -39,6 +39,7 @@ A collection of useful Bash scripts.
 	- [git-branches-rm](#git-branches-rm)
 - [Functions](#functions)
     - [mcdir](#mcdir)
+	- [gcd](#gcd)
 
 # Overview
 This repository provides numerous helpful bash scripts and functions.  
@@ -153,3 +154,6 @@ Remove all branches except the one which is currently checked out.
 # Functions
 ## mcdir
 Create and cd into directory.
+
+## gcd
+Git clone and cd into directory.
