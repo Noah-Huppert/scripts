@@ -20,6 +20,13 @@
 #
 #    These files can be restored with the `trash-restore` command.
 #
+#
+#    Emacs auto save files are any file who's basename matches either:
+#
+#         ^#.+#$
+#
+#         ^.#.+$
+#
 #?
 
 # Helpers
@@ -48,6 +55,7 @@ if [ -z "$dir" ]; then
 fi
 
 # Find and trash auto save files
+# TODO: Make find second format of auto save file, they start with ".#"
 while read -r file; do
     if ! trash "$file"; then
 	die "Failed to trash \"$file\""
