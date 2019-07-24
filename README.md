@@ -37,6 +37,7 @@ A collection of useful Bash scripts.
 	- [xtend](#xtend)
     - [gh-open](#gh-open)
 	- [git-branches-rm](#git-branches-rm)
+	- [emacs-clean](#emacs-clean)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 	- [gcd](#gcd)
@@ -150,6 +151,10 @@ Open GitHub repository from terminal.
 
 ## git-branches-rm
 Remove all branches except the one which is currently checked out.
+
+# emacs-clean
+Use the `trash` command to remove emacs auto save files.  
+These files can be restored with the `trash-restore` command.
 
 # Functions
 ## mcdir

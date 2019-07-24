@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+#?
+# emacs-clean - Remove emacs auto save files
+#
+# USAGE
+#
+#    emacs-clean [-h] [DIR]
+#
+# OPTIONS
+#
+#    -h    Show help text
+#
+# ARGUMENTS
+#
+#    DIR    Directory to clean, defaults to pwd
+#
+# BEHAVIOR
+#
+#    Removes emacs auto save files with the `trash` command.
+#
+#    These files can be restored with the `trash-restore` command.
+#
+#?
+
+# Helpers
+function die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+# Options
+while getopts "h" opt; do
+    case "$opt" in
+	h)
+	    show-help "$0"
+	    exit 1
+	    ;;
+	?) die "Unknown option" ;;
+    esac
+done
+
+shift $(($OPTIND - 1))
+
+# Arguments
+dir="$1"
+if [ -z "$dir" ]; then
+    dir="$PWD"
+fi
+
+# Find and trash auto save files
+while read -r file; do
+    if ! trash "$file"; then
+	die "Failed to trash \"$file\""
+    fi
+    echo "Trashed \"$file\""
+done <<< $(find "$dir" -type f -regex '.*#.+#')
+
+echo "Done"
