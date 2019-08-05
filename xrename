@@ -4,11 +4,11 @@
 #
 # USAGE
 #
-#	xrename OPTIONS NAME
+#	xrename [-s,-h] NAME
 #
 # OPTIONS
 #
-#	-s         (Optional) Instead of renaming current window, renamed 
+#	-s         Instead of renaming current window, renamed 
 #	           window selected by mouse
 #	-h         Show help text
 #
