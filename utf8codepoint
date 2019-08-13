@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+#?
+# utf8codepoint - Prints the UTF-8 code point for glyphs from stdin
+#
+# USAGE
+#
+#    utf8codepoint [-h]
+#
+# OPTIONS
+#
+#    -h    Print help text
+#
+# BEHAVIOR
+#
+#    Uses hexdump to print the UTF-8 code point for glyphs from stdin.
+#
+#    Prefixes code points with exactly: \u
+#
+#?
+
+# Helpers
+function die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+# Check dependencies
+if ! which hexdump &> /dev/null; then
+    die "hexdump must be installed"
+fi
+
+# Options
+while getopts "h" opt; do
+    case "$opt" in
+	   h)
+		  show-help "$0"
+		  exit 1
+		  ;;
+	   ?) die "Unknown option" ;;
+    esac
+done
+
+# Get code points
+while read -r -n 1 c; do
+    code_point=$(echo "$c" | hexdump -n 1 |  head -n 1 | awk '{ print $2 }')
+    printf "\\"
+    printf "u"
+    printf "$code_point"
+done

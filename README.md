@@ -38,6 +38,7 @@ A collection of useful Bash scripts.
     - [gh-open](#gh-open)
 	- [git-branches-rm](#git-branches-rm)
 	- [emacs-clean](#emacs-clean)
+	- [utf8codepoint](#utf8codepoint)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 	- [gcd](#gcd)
@@ -155,6 +156,9 @@ Remove all branches except the one which is currently checked out.
 ## emacs-clean
 Use the `trash` command to remove emacs auto save files.  
 These files can be restored with the `trash-restore` command.
+
+## utf8codepoint
+Prints the UTF-8 code point for glyph from stdin.
 
 # Functions
 ## mcdir
