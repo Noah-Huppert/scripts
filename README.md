@@ -38,7 +38,7 @@ A collection of useful Bash scripts.
 	- [git-branches-rm](#git-branches-rm)
 	- [emacs-clean](#emacs-clean)
 	- [utf8codepoint](#utf8codepoint)
-	- [wgrep](#wgrep)
+	- [mvself](#mvself)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 	- [gcd](#gcd)
@@ -157,8 +157,8 @@ These files can be restored with the `trash-restore` command.
 ## utf8codepoint
 Prints the UTF-8 code point for glyph from stdin.
 
-## wgrep
-Wait until input matches pattern.
+# mvself
+Move current working directory.
 
 # Functions
 ## mcdir

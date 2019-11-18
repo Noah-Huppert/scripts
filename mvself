@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+#?
+# mvself - Move current working directory
+#
+# USAGE
+#
+#     mvself [-r] DEST
+#
+# OPTIONS
+#
+#    -r    Recursively move working directory to DEST
+#
+# ARGUMENTS
+#
+#     DEST    Destionation which to move working directory
+#
+# BEHAVIOR
+#
+#    Moves the current working directory to DEST
+#
+#?
+
+# Helpers
+function die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+# Options
+mv_args=()
+
+while getopts "r" opt; do
+    case "$opt" in
+	   r) mv_args+=("-r") ;;
+	   ?) die "Unknown option" ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+# Arguments
+dest="$1"
+if [ -z "$dest" ]; then
+    die "DEST argument required"
+fi
+
+pwd_name="$PWD"
+cd ..
+
+exec mv "${mv_args[@]}" "$pwd_name" "$dest"
