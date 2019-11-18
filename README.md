@@ -16,7 +16,6 @@ A collection of useful Bash scripts.
 	- [x](#x)
 	- [m](#m)
 	- [bkground](#bkground)
-	- [wifi](#wifi)
 	- [touchx](#touchx)
 	- [cgrep](#cgrep)
 	- [sx](#sx)
@@ -39,6 +38,7 @@ A collection of useful Bash scripts.
 	- [git-branches-rm](#git-branches-rm)
 	- [emacs-clean](#emacs-clean)
 	- [utf8codepoint](#utf8codepoint)
+	- [wgrep](#wgrep)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 	- [gcd](#gcd)
@@ -89,9 +89,6 @@ Make shortcut.
 
 ## bkground
 Sets the desktop background with feh.
-
-## wifi
-Shortcut for reconnecting to wifi.
 
 ## Touchx
 Creates a file with execution privileges.
@@ -159,6 +156,9 @@ These files can be restored with the `trash-restore` command.
 
 ## utf8codepoint
 Prints the UTF-8 code point for glyph from stdin.
+
+## wgrep
+Wait until input matches pattern.
 
 # Functions
 ## mcdir
