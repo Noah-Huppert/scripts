@@ -22,5 +22,4 @@ if [[ "$1" =~ (--help|-h) ]]; then
 fi
 
 # Color grep
-grep --color=always $@
-
+grep --color=always "$@"
