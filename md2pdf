@@ -74,7 +74,7 @@ fi
 for f in "${files[@]}"; do
     name="${f%.*}"
 
-    if ! pandoc -o "$name.pdf" "$name.md" "$@"; then
+    if ! pandoc --wrap=preserve -o "$name.pdf" "$name.md" "$@"; then
 	die "Failed to convert file \"$f\""
     fi
 done
