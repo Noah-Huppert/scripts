@@ -18,4 +18,4 @@ if [[ "$1" =~ (--help|-h) ]]; then
 	exit 1
 fi
 
-mpg123 "$(dirname $0)/data/bloop.mp3" &> /dev/null
+play "$(dirname $0)/data/bloop.mp3" &> /dev/null
