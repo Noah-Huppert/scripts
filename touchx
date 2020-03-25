@@ -9,23 +9,46 @@
 #	1. FILE (String): File to create
 #
 # OPTIONS
-#	--help,-h    Display help text
+#    -t    Template to start file, values: bash
+#    -h    Display help text
 #
 # BEHAVIOR
 #	Creates a file with execution permissions.
 #?
 
+# Helpers
+function die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+# Options
+while getopts "ht:" opt; do
+    case "$opt" in
+	   t) template="$OPTARG" ;;
+	   h)
+		  show-help "$0"
+		  exit 1;
+		  ;;
+	   ?) die "Unknown argument \"$opt\"" ;;
+    esac
+done
+
+shift $((OPTIND-1)) 
+
 # Arguments
 file="$1"
 if [ -z "$file" ]; then
-	echo "Error: file argument must be provided" >&2
-	show-help "$0"
-	exit 1
-elif [[ "$file" =~ ^(--help|-h)$ ]]; then
-	show-help "$0"
-	exit 1
+    die "file argument must be provided"
 fi
 
 # Create file
 touch "$file"
 chmod +x "$file"
+
+# Add template if provided
+case "$template" in
+    bash)
+	   echo '#!/usr/bin/env bash' >> "$file"
+	   ;;
+esac
