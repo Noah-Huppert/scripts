@@ -23,16 +23,14 @@
 
 function gcd() {
     # Options
-    while getopts "h" opt; do
+    gitopts=()
+    while getopts "+h" opt; do
 	case "$opt" in
 	    h)
 		show-help "$function_file"
 		return 1
 		;;
-	    ?)
-	        echo "Error: Unknown option" >&2
-	        return 1
-	    ;;
+	    ?) gitopts+=("$OPTARG") ;;
 	esac
     done
 
@@ -50,7 +48,7 @@ function gcd() {
     fi
 
     # Clone
-    if ! git clone "$REPO" "$DIR"; then
+    if ! git clone "${gitopts[@]}" "$REPO" "$DIR"; then
 	echo "Error: Failed to clone" >&2
 	return 1
     fi
