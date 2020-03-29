@@ -9,7 +9,7 @@
 #	1. FILE (String): File to create
 #
 # OPTIONS
-#    -t    Template to start file, values: bash
+#    -t    Template to start file, values: bash, python3
 #    -h    Display help text
 #
 # BEHAVIOR
@@ -51,4 +51,8 @@ case "$template" in
     bash)
 	   echo '#!/usr/bin/env bash' >> "$file"
 	   ;;
+    python3)
+	   echo '#!/usr/bin/env python3' >> "$file"
+	   ;;
+    *) die "Invalid template name: \"$template\"" ;;
 esac
