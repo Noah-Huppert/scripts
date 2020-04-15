@@ -3,7 +3,11 @@
 # Todo - Shows todo notes in source files
 #
 # USAGE
-#	todo [OPTIONS]
+#	todo [OPTIONS] DIR
+#
+# ARGUMENTS
+#
+#    DIR    Name of directory to search for TODO comments
 #
 # OPTIONS
 #	--help,-h    Display help text
@@ -21,5 +25,12 @@ if [[ "$1" =~ ^(--help|-h)$ ]]; then
 	exit 1
 fi
 
+# DIR argument
+DIR="."
+
+if [ -n "$1" ]; then
+    DIR="$1"
+fi
+
 # Find todo notes
-grep -rn --exclude-dir vendor --color "TODO" .
+grep -rn --exclude-dir vendor --color "TODO" "$DIR"
