@@ -73,7 +73,7 @@ A script which clears any swap files nvim has made.
 ## fterm
 A script which opens a terminal in a floating window using bspwm. 
 
-## local-dns
+## virtual-dns
 A tool which modifies your `/etc/hosts` file to give you local domains for 
 quick development.
 
