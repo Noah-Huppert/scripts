@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+#?
+# wgrep - Wait until input matches pattern and exit
+#
+# USAGE
+#
+#    wgrep [-h] ...
+#
+# EXAMPLES
+#
+#
+#    Send an email when an error is logged to the system log:
+#
+#        cat /var/logs/* | wgrep ERROR && mail -s "An error occurred"
+#
+# OPTIONS
+#
+#    -h    Shows help text
+#
+# ARGUMENTS
+#
+#    ...    All arguments are passed directly to grep
+#
+# BEHAVIOR
+#
+#    Reads lines from stdin until ones matches a grep pattern. If the pattern
+#    is matched echos this line and exits with 0.
+#
+#?
+
+set -e
+
+# Helpers
+function die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+# Options
+if [[ "$1" == "-h" ]]; then
+    show-help "$0"
+    exit 0
+fi
+
+# Wait for input
+while read line; do
+    if echo "$line" | grep $@; then
+	   exit 0
+    fi
+done
+
+exit 1

@@ -40,6 +40,7 @@ A collection of useful Bash scripts.
 	- [utf8codepoint](#utf8codepoint)
 	- [mvself](#mvself)
 	- [mvext](#mvext)
+	- [wgrep](#wgrep)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 	- [gcd](#gcd)
@@ -158,11 +159,14 @@ These files can be restored with the `trash-restore` command.
 ## utf8codepoint
 Prints the UTF-8 code point for glyph from stdin.
 
-# mvself
+## mvself
 Move current working directory.
 
-# mvext
+## mvext
 Changes extension of files.
+
+## wgrep
+Wait until input matches pattern and exit.
 
 # Functions
 ## mcdir
