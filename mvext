@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #?
-# Changes a file extensions.
+# mvext - Changes a file extensions.
 #
 # USAGE
 #
