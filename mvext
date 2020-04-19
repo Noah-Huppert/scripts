@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+#?
+# Changes a file extensions.
+#
+# USAGE
+#
+#    mvext [-h] FILES... NEW_EXT
+#
+# OPTIONS
+#
+#    -h    Show help text
+#
+# ARGUMENTS
+#
+#    FILES...    Files of which to change extension. If "-" reads from STDIN. In
+#                this case there should be 1 file per line.
+#    NEW_EXT     New file extension, without dot
+#
+# BEHAVIOR
+#
+#    Changes the file extension of FILES. The existing file extension of these
+#    files is the text after the last dot (.).
+#
+#?
+
+set -e
+
+# Helpers
+function die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+# Options
+while getopts "h" opt; do
+    case "$opt" in
+	   h)
+		  show-help "$0"
+		  exit 0
+		  ;;
+	   '?') die "Unknown option" ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+# Arguments
+files=()
+
+if [[ "$1" == "-" ]]; then
+    while read line; do
+	   files+=("$line")
+    done <<< "$(cat -)"
+
+    new_ext="$2"
+else
+    while [ -n "$2" ]; do
+	   files+=("$1")
+	   shift
+    done
+
+    new_ext="$1"
+fi
+
+if [ -z "$files" ]; then
+    die "FILES argument required"
+fi
+
+if [ -z "$new_ext" ]; then
+    die "NEW_EXT argument required"
+fi
+
+if [[ "${new_ext:0:1}" == "." ]]; then
+    die "Dot should not be included in NEW_EXT"
+fi
+
+# Move files
+for file in "${files[@]}"; do
+    ext=${file##*.}
+    name=${file%.*}
+
+    mv "$file" "${name}.${new_ext}"
+done

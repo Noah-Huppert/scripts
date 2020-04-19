@@ -39,6 +39,7 @@ A collection of useful Bash scripts.
 	- [emacs-clean](#emacs-clean)
 	- [utf8codepoint](#utf8codepoint)
 	- [mvself](#mvself)
+	- [mvext](#mvext)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 	- [gcd](#gcd)
@@ -159,6 +160,9 @@ Prints the UTF-8 code point for glyph from stdin.
 
 # mvself
 Move current working directory.
+
+# mvext
+Changes extension of files.
 
 # Functions
 ## mcdir
