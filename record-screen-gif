@@ -8,9 +8,12 @@
 #
 # OPTIONS
 #
-#    -w    Record a specific window, which will be selected by clicking on a window
-#          right after the script starts
-#    -h    Show help text
+#    -w                 Record a specific window, which will be selected by
+#                       clicking on a window right after the script starts
+#    -r <FRAME RATE>    Frame rate at which to record screen, defaults to 15
+#    -q <QUALITY>       Quality of recording, in range 0 (worst) to 100 (best),
+#                       defaults to 75
+#    -h                 Show help text
 #
 # ARGUMENTS
 #
@@ -53,9 +56,18 @@ if [ -n "$missing_deps" ]; then
 fi
 
 # Options
-while getopts "hw" opt; do
+option_frame_rate=15
+option_quality=75
+while getopts "hwr:q:" opt; do
     case "$opt" in
 	   w) option_select_window=true ;;
+	   r) option_frame_rate="$OPTARG" ;;
+	   q)
+		  option_quality="$OPTARG"
+		  if (($option_quality < 0)) || (($option_quality > 100)); then
+			 die "-q option value must be in range [0, 100]"
+		  fi
+		  ;;
 	   h)
 		  show-help "$0"
 		  exit 1
@@ -79,8 +91,29 @@ if [[ "$out_file_ext" != "gif" ]]; then
     die "OUT_FILE \"$out_file\" argument must end in \".gif\", ended in \"$out_file_ext\""
 fi
 
+# recordmydesktop takes a value [0, 63]
+recordmydesktop_quality=$(bc -l <<< "$option_quality * 0.63")
+
 recording_ogv_file="/tmp/${out_file_name}.ogv"
-recordmydesktop_args=("--no-sound" "-o $recording_ogv_file")
+recordmydesktop_args=(
+    "--no-sound"
+    "-o $recording_ogv_file"
+    "--fps $option_frame_rate"
+    "--v_quality $recordmydesktop_quality"
+)
+
+# Setup cleanup trap
+function cleanup() {
+    bold "Cleaning up after error"
+    
+    if [ -f "$recording_ogv_file" ]; then
+	   rm "$recording_ogv_file"
+    fi
+
+    if [ -f "$out_file" ]; then
+	   rm "$out_file"
+    fi
+}
 
 # Select window if required
 if [ -n "$option_select_window" ]; then
@@ -98,6 +131,7 @@ fi
 bold "Recording screen, press CTRL + C to finish recording"
 
 if ! recordmydesktop ${recordmydesktop_args[@]}; then
+    cleanup
     die "Failed to record screen"
 fi
 
@@ -105,6 +139,7 @@ fi
 bold "Converting recording to GIF"
 
 if ! ffmpeg -i "$recording_ogv_file" "$out_file"; then
+    cleanup
     die "Failed to convert recording to GIF"
 fi
 
