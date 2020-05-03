@@ -1,0 +1,116 @@
+#!/usr/bin/env bash
+#?
+# Record Screen Gif - Records the screen and outputs a gif
+#
+# USAGE
+#
+#    record-screen-gif [OPTIONS] OUT_FILE
+#
+# OPTIONS
+#
+#    -w    Record a specific window, which will be selected by clicking on a window
+#          right after the script starts
+#    -h    Show help text
+#
+# ARGUMENTS
+#
+#    OUT_FILE    Name of the output gif file
+#
+# BEHAVIOR
+#
+#    Uses recordmydesktop to record the screen. Then uses ffmpeg to convert the
+#    outputted ogv file to a gif.
+#
+#    If the -w option is provided xdotool is used to find the id of a window the
+#    user selects and only record that window.
+#
+# DEPENDENCIES
+#
+#    recordmydesktop, ffmpeg, and xdotool.
+#?
+
+# Helpers
+function die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+
+function bold() {
+    echo "$(tput bold)$@$(tput sgr0)"
+} 
+
+# Check for dependencies
+missing_deps=()
+for bin in recordmydesktop ffmpeg xdotool; do
+    if ! which "$bin" &> /dev/null; then
+	   missing_deps+=("$bin")
+    fi
+done
+
+if [ -n "$missing_deps" ]; then
+    die "Missing dependencies: ${missing_deps[@]}"
+fi
+
+# Options
+while getopts "hw" opt; do
+    case "$opt" in
+	   w) option_select_window=true ;;
+	   h)
+		  show-help "$0"
+		  exit 1
+		  ;;
+	   '?') die "Unknown option" ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+# Arguments
+out_file="$1"
+if [ -z "$out_file" ]; then
+    die "OUT_FILE argument required"
+fi
+
+out_file_name=${out_file%.*}
+out_file_ext=${out_file##*.}
+
+if [[ "$out_file_ext" != "gif" ]]; then
+    die "OUT_FILE \"$out_file\" argument must end in \".gif\", ended in \"$out_file_ext\""
+fi
+
+recording_ogv_file="/tmp/${out_file_name}.ogv"
+recordmydesktop_args=("--no-sound" "-o $recording_ogv_file")
+
+# Select window if required
+if [ -n "$option_select_window" ]; then
+    bold "Click on window to record"
+
+    windowid=$(xdotool selectwindow)
+    if [[ "$?" != "0" ]]; then
+	   die "Failed to determine which window to record"
+    fi
+
+    recordmydesktop_args+=("--windowid $windowid")
+fi
+
+# Record screen
+bold "Recording screen, press CTRL + C to finish recording"
+
+if ! recordmydesktop ${recordmydesktop_args[@]}; then
+    die "Failed to record screen"
+fi
+
+# Convert to gif
+bold "Converting recording to GIF"
+
+if ! ffmpeg -i "$recording_ogv_file" "$out_file"; then
+    die "Failed to convert recording to GIF"
+fi
+
+# Delete OGV recording
+if ! rm "$recording_ogv_file"; then
+    die "Failed to delete recording OGV file"
+fi
+
+bold "Screen recorded to $out_file successfully"

@@ -41,6 +41,7 @@ A collection of useful Bash scripts.
 	- [mvself](#mvself)
 	- [mvext](#mvext)
 	- [wgrep](#wgrep)
+	- [record-screen-gif](#record-screen-gif)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 	- [gcd](#gcd)
@@ -167,6 +168,9 @@ Changes extension of files.
 
 ## wgrep
 Wait until input matches pattern and exit.
+
+## record-screen-gif
+Records the screen as a GIF.
 
 # Functions
 ## mcdir
