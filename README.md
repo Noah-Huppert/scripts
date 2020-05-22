@@ -42,6 +42,7 @@ A collection of useful Bash scripts.
 	- [mvext](#mvext)
 	- [wgrep](#wgrep)
 	- [record-screen-gif](#record-screen-gif)
+	- [pagerr](#pagerr)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 	- [gcd](#gcd)
@@ -171,6 +172,9 @@ Wait until input matches pattern and exit.
 
 ## record-screen-gif
 Records the screen as a GIF.
+
+## pagerr
+Page standard error.
 
 # Functions
 ## mcdir

@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+#?
+# pagerr - Page standard error
+#
+# USAGE
+#
+#    pagerr [-h] <CMD...>
+#
+# OPTIONS
+#
+#    -h    Show this help text
+#
+# ARGUMENTS
+#
+#    CMD...    Command to run and page output of stderr
+#
+# BEHAVIOR
+#
+#    Invokes CMD... and redirects stderr to $PAGER. If $PAGER is "less" the -r
+#    option is passed. If CMD is known to need the --color=always option this is
+#    also passed.
+#    
+#?
+
+function die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+# Check pager is set
+if [ -z "$PAGER" ]; then
+    # Try defaulting to "less", then "more"
+    if which less &> /dev/null; then
+	   PAGER=less
+    elif which more &> /dev/null; then
+	   PAGER=more
+    else
+	   die "PAGER environment variable must be set"
+    fi
+fi
+
+# Check options
+while getopts "h" opt; do
+    case "$opt" in
+	   h)
+		  show-help "$0"
+		  exit 1
+		  ;;
+    esac
+done
+
+# Check arguments
+cmd="$@"
+if [ -z "$cmd" ]; then
+    die "CMD... argument required"
+fi
+
+# Check if CMD is known to take the --color=always option
+case $(echo "$cmd" | awk '{ print $1 }') in
+    cargo|grep) cmd="$cmd --color=always" ;;
+esac
+
+# Check if pager is known to take a "respect colored output" option
+case "$PAGER" in
+    less) PAGER="$PAGER -r" ;;
+esac
+
+# Run command
+$cmd 2>&1 1> /dev/null | $PAGER
