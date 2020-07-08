@@ -31,7 +31,7 @@ fi
 
 cmdopts=()
 for item in "$@"; do
-    if [[ "$item" =~ -.* ]]; then
+    if [[ "$item" =~ ^-.*$ ]]; then
 	   cmdopts+=("$item")
     elif [ -f "$item" ]; then
 	   cat "${cmdopts[@]}" "$item"
