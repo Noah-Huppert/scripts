@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+#?
+# lscat - Flexible ls and cat command
+#
+# USAGE
+#
+#     lscat ...
+#
+# ARGUMENTS
+#
+#     Any options you would like to pass to ls or cat. Then any file or
+#     directory names.
+#
+# BEHAVIOR
+#
+#    If an argument is refering to a file then cat is called for that argument.
+#    If an argument is refering to a directory then ls is called for that argument.
+#
+#    Options are passed to the ls or cat command.
+#
+#?
+function die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+
+if [ -z "$1" ]; then
+    ls --color=always
+fi
+
+cmdopts=()
+for item in "$@"; do
+    if [[ "$item" =~ -.* ]]; then
+	   cmdopts+=("$item")
+    elif [ -f "$item" ]; then
+	   cat "${cmdopts[@]}" "$item"
+    elif [ -d "$item" ]; then
+	   ls --color=always "${cmdopts[@]}" "$item"
+    else
+	   die "No such file or directory: $item"
+    fi
+done

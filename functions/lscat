@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# This aliases the ls and cat commands to the lscat script.
+alias ls=lscat
+alias cat=lscat

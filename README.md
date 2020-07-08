@@ -43,6 +43,7 @@ A collection of useful Bash scripts.
 	- [wgrep](#wgrep)
 	- [record-screen-gif](#record-screen-gif)
 	- [pagerr](#pagerr)
+	- [lscat](#lscat)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 	- [gcd](#gcd)
@@ -182,3 +183,9 @@ Create and cd into directory.
 
 ## gcd
 Git clone and cd into directory.
+
+## lscat
+Either lists a directory or cats a file.
+
+When installed the repository then aliases the `ls` and `cat` commands to use
+this more flexible version.
