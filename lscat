@@ -24,20 +24,25 @@ function die() {
     exit 1
 }
 
-
-if [ -z "$1" ]; then
-    ls --color=always
-fi
-
 cmdopts=()
+items=()
+
 for item in "$@"; do
     if [[ "$item" =~ ^-.*$ ]]; then
 	   cmdopts+=("$item")
+    else
+	   items+=("$item")
+    fi
+done
+
+if [ -z "$items" ]; then
+    items+=(".")
+fi
+
+for item in "${items[@]}"; do
+    if [ -d "$item" ]; then
+	   ls --color=always "${cmdopts[@]}" "$item"
     elif [ -f "$item" ]; then
 	   cat "${cmdopts[@]}" "$item"
-    elif [ -d "$item" ]; then
-	   ls --color=always "${cmdopts[@]}" "$item"
-    else
-	   die "No such file or directory: $item"
     fi
 done
