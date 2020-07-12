@@ -54,5 +54,9 @@ case "$template" in
     python3)
 	   echo '#!/usr/bin/env python3' >> "$file"
 	   ;;
-    *) die "Invalid template name: \"$template\"" ;;
+    *)
+	   if [ -n "$template" ]; then
+		  die "Invalid template name: \"$template\""
+	   fi
+	   ;;
 esac
