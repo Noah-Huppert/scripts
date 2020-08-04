@@ -1,76 +1,93 @@
 #!/usr/bin/env bash
-#?
-# logs - Display system logs from socklog with LNav
-#
-# USAGE
-#
-#    logs OPTIONS [GROUP]
-#
-# OPTIONS
-#
-#    -h    Show help
-#    -l    List log groups and exit
-#
-# ARGUMENTS
-#
-#    GROUP    (Optional) Log group to display, defaults to 'everything'
-#
-# BEHAVIOR
-#
-#    Displays system logs from the specified group using LNav.
-#
-#    Expects logs to be in the directory /var/log/socklog/GROUP/current
-#
-#?
-
-# {{{1 Configuration
-logs_dir="/var/log/socklog"
-mode="view"
-group="everything"
-
-# {{{1 Helpers
+# Helpers
 function die() {
     echo "Error: $@" >&2
     exit 1
 }
 
-# {{{1 Options
-while getopts "hl" opt; do
+function check() {
+    if [ "$?" -ne 0 ]; then
+	   die "$@"
+    fi
+}
+
+# Options
+default_logs_dir="/var/log/socklog"
+logs_dir="$default_logs_dir"
+mode="view"
+
+while getopts "hd:l" opt; do
     case "$opt" in
-	h) mode="help" ;;
-	l) mode="list" ;;
-	'?') die "Unknown option" ;;
+	   h) mode="help" ;;
+	   d) logs_dir="$OPTARG" ;;
+	   l) mode="list" ;;
+	   '?') die "Unknown option" ;;
     esac
 done
 
-# {{{1 Arguments
+# Arguments
+group="everything"
 if [ -n "$1" ]; then
     group="$1"
     shift
 fi
 
-# {{{1 Help mode
-if [[ "$mode" == "help" ]]; then
-    show-help "$0"
-    exit 1
-fi
+# Main
+case "$mode" in
+    help)
+	   cat <<EOF
+logs - Display system logs from socklog with LNav
 
-# {{{1 List mode
-if [[ "$mode" == "list" ]]; then
-    if ! ls "$logs_dir"; then
-	die "Failed to list"
-    fi
-fi
+USAGE
 
-# {{{1 View mode
-if [[ "$mode" == "view" ]]; then
-    logs_file="$logs_dir/$group/current"
+   logs OPTIONS [GROUP]
 
-    # {{{2 Check group exists
-    if [ ! -f "$logs_file" ]; then
-	die "Group \"$group\" does not exist"
-    fi
+OPTIONS
 
-    # {{{2 View
-    exec lnav "$logs_file"
-fi
+   -h    Show help and exit
+   -d LOGS_DIR    Base logging directory (defaults to $default_logs_dir)
+   -l    List log groups and exit
+
+ARGUMENTS
+
+   GROUP    (Optional) Log group to display, defaults to 'everything'
+
+BEHAVIOR
+
+   Displays system logs from the specified group using LNav.
+
+   Expects logs to be in the directory /var/log/socklog/GROUP/current
+EOF
+	   exit 0
+	   ;;
+    list|view)
+	   # Ensure the user has access to logs
+	   if [ ! -d "$logs_dir" ]; then
+		  die "Logs directory \"$logs_dir\" does not exist"
+	   elif [ ! -r "$logs_dir" ]; then
+		  die "User \"$USER\" does not have permission access to the \"$logs_dir\" logs directory"
+	   fi
+	   ;& # Note fallthrough
+    list)
+	   ls "$logs_dir"
+	   check "Failed to list log groups"
+	   exit 0
+	   ;;
+    view)
+	   logs_file="$logs_dir/$group/current"
+
+	   # Check group exists
+	   if [ ! -f "$logs_file" ]; then
+		  die "Group \"$group\" does not exist"
+	   elif [ ! -r "$logs_file" ]; then # Check permissions
+		  die "User \"$USER\" does not have permission to access the \"$logs_file\" log group file"
+	   fi
+
+	   # View
+	   exec lnav "$logs_file"
+	   ;;
+    *)
+	   echo "logs [-h,-l] [GROUP]"
+	   exit 1
+	   ;;
+esac
