@@ -19,4 +19,5 @@ if [[ "$1" =~ ^(--help|-h)$ ]]; then
 	exit 1
 fi
 
+echo "$(which $0): killing process $PPID"
 kill -9 "$PPID"
