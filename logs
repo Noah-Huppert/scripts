@@ -12,18 +12,44 @@ function check() {
 }
 
 # Options
-default_logs_dir="/var/log/socklog"
-logs_dir="$default_logs_dir"
-mode="view"
+opt_logs_dir=/var/log/socklog
 
 while getopts "hd:l" opt; do
     case "$opt" in
-	   h) mode="help" ;;
-	   d) logs_dir="$OPTARG" ;;
-	   l) mode="list" ;;
+	   h)
+		  cat <<EOF
+logs - Display system logs from socklog with LNav
+
+USAGE
+
+   logs [-h,-d LOGS_DIR,-l] [GROUP]
+
+OPTIONS
+
+   -h             Show help and exit.
+   -d LOGS_DIR    Base logging directory (defaults to $opt_logs_dir).
+   -l             List log groups and exit.
+
+ARGUMENTS
+
+   GROUP    Log group to display, defaults to 'everything'.
+
+BEHAVIOR
+
+   Displays system logs from the specified group using LNav.
+
+   Expects logs to be in the directory LOGS_DIR/GROUP/current
+
+EOF
+		  exit 0
+		  ;;
+	   d) opt_logs_dir="$OPTARG" ;;
+	   l) opt_list=true ;;
 	   '?') die "Unknown option" ;;
     esac
 done
+
+shift $((OPTIND-1))
 
 # Arguments
 group="everything"
@@ -32,62 +58,27 @@ if [ -n "$1" ]; then
     shift
 fi
 
+# Ensure the user has access to logs
+if [ ! -d "$opt_logs_dir" ]; then
+    die "Logs directory \"$opt_logs_dir\" does not exist"
+elif [ ! -r "$opt_logs_dir" ]; then
+    die "User \"$USER\" does not have permission access to the \"$opt_logs_dir\" logs directory"
+fi
+
 # Main
-case "$mode" in
-    help)
-	   cat <<EOF
-logs - Display system logs from socklog with LNav
+if [ -n "$opt_list" ]; then
+    ls "$opt_logs_dir" | xargs -n1 echo
+    check "Failed to list log groups"
+else
+    group_dir="$opt_logs_dir/$group"
 
-USAGE
+    # Check group exists
+    if [ ! -d "$group_dir" ]; then
+	   die "Group \"$group\" does not exist"
+    elif [ ! -r "$group_dir" ]; then # Check permissions
+	   die "User \"$USER\" does not have permission to access the \"$group_dir\" log group directory"
+    fi
 
-   logs OPTIONS [GROUP]
-
-OPTIONS
-
-   -h    Show help and exit
-   -d LOGS_DIR    Base logging directory (defaults to $default_logs_dir)
-   -l    List log groups and exit
-
-ARGUMENTS
-
-   GROUP    (Optional) Log group to display, defaults to 'everything'
-
-BEHAVIOR
-
-   Displays system logs from the specified group using LNav.
-
-   Expects logs to be in the directory /var/log/socklog/GROUP/current
-EOF
-	   exit 0
-	   ;;
-    list|view)
-	   # Ensure the user has access to logs
-	   if [ ! -d "$logs_dir" ]; then
-		  die "Logs directory \"$logs_dir\" does not exist"
-	   elif [ ! -r "$logs_dir" ]; then
-		  die "User \"$USER\" does not have permission access to the \"$logs_dir\" logs directory"
-	   fi
-	   ;& # Note fallthrough
-    list)
-	   ls "$logs_dir"
-	   check "Failed to list log groups"
-	   exit 0
-	   ;;
-    view)
-	   logs_file="$logs_dir/$group/current"
-
-	   # Check group exists
-	   if [ ! -f "$logs_file" ]; then
-		  die "Group \"$group\" does not exist"
-	   elif [ ! -r "$logs_file" ]; then # Check permissions
-		  die "User \"$USER\" does not have permission to access the \"$logs_file\" log group file"
-	   fi
-
-	   # View
-	   exec lnav "$logs_file"
-	   ;;
-    *)
-	   echo "logs [-h,-l] [GROUP]"
-	   exit 1
-	   ;;
-esac
+    # View
+    lnav "$group_dir"
+fi
