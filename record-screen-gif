@@ -130,6 +130,8 @@ fi
 # Record screen
 bold "Recording screen, press CTRL + C to finish recording"
 
+echo "+ recordmydesktop ${recordmydesktop_args[@]}"
+
 if ! recordmydesktop ${recordmydesktop_args[@]}; then
     cleanup
     die "Failed to record screen"
@@ -137,6 +139,8 @@ fi
 
 # Convert to gif
 bold "Converting recording to GIF"
+
+echo "+ ffmpeg -i \"$recording_ogv_file\" \"$out_file\""
 
 if ! ffmpeg -i "$recording_ogv_file" "$out_file"; then
     cleanup
