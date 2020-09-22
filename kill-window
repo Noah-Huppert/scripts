@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+# Helpers
+bold() {
+    echo "$(tput bold)$@$(tput sgr0)"
+}
+
+die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+check() {
+    if [ "$?" -ne 0 ]; then
+	   die "$@"
+    fi
+}
+
+# Options
+while getopts "hc" opt; do
+    case "$opt" in
+	   h)
+		  cat <<EOF
+kill-window - Kill X window.
+
+USAGE
+
+    kill-window [-h,-c]
+
+OPTIONS
+
+    -h    Show this help text.
+    -c    Confirm the window to kill before doing so.
+
+BEHAIVOR
+
+    Kills the window the user clicks on.
+
+    Requires xdotool and wmctrl.
+    
+EOF
+		  exit 0
+		  ;;
+	   c) opt_confirm=true ;;
+    esac
+done
+
+# Check for dependency binaries
+missing_bins=()
+for bin in xdotool wmctrl; do
+    if ! which "$bin" &> /dev/null; then
+	   missing_bins+=("$bin")
+    fi
+done
+
+if [ -n "$missing_bins" ]; then
+    die "${missing_bins[@]} must be installed"
+fi
+
+# Select window
+bold "Click on the window to kill"
+xwindow_id=$(xdotool selectwindow)
+check "Failed to select a window"
+
+xwindow_id_hex=$(printf '%x\n' "$xwindow_id" | tr '[:upper:]' '[:lower:]')
+check "Failed to convert window ID into hexadecimal"
+
+xwindow_id_str="0x$xwindow_id_hex ($xwindow_id)"
+
+# Get window PID
+xwindow_info=$(wmctrl -lp | grep "$xwindow_id_hex")
+check "Failed to get information about X window $xwindow_id_str"
+
+xwindow_pid=$(echo "$xwindow_info" | awk '{ printf $3 }')
+check "Failed to get PID of X window $xwindow_id_str"
+
+# Confirm if required
+if [ -n "$opt_confirm" ]; then
+    bold "Selected window"
+    
+    bold "Window ID  WS PID    Bin    Title"
+    echo "$xwindow_info"
+
+    bold "Kill this window? (Any key to continue, ctrl+c to cancel)"
+    read
+fi
+
+# Kill
+kill "$xwindow_pid"
+check "Failed to kill X window $xwindow_id_str"
+bold "Killed successfully"

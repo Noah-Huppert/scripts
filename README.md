@@ -43,6 +43,7 @@ A collection of useful Bash scripts.
 	- [wgrep](#wgrep)
 	- [record-screen-gif](#record-screen-gif)
 	- [pagerr](#pagerr)
+	- [kill-window](#kill-window)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 	- [gcd](#gcd)
@@ -175,6 +176,9 @@ Records the screen as a GIF.
 
 ## pagerr
 Page standard error.
+
+## kill-window
+Kill an X window.
 
 # Functions
 ## mcdir
