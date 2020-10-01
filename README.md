@@ -44,6 +44,7 @@ A collection of useful Bash scripts.
 	- [record-screen-gif](#record-screen-gif)
 	- [pagerr](#pagerr)
 	- [kill-window](#kill-window)
+	- [tabs-to-spaces](#tabs-to-spaces)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 	- [gcd](#gcd)
@@ -179,6 +180,9 @@ Page standard error.
 
 ## kill-window
 Kill an X window.
+
+# tabs-to-spaces
+Converts tabs in a file to spaces.
 
 # Functions
 ## mcdir

@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# Helpers
+die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+# Options
+while getopts "h" opt; do
+    case "$opt" in
+	   h)
+		  cat <<EOF
+tabs-to-spaces - Converts tabs to spaces within file(s).
+
+USAGE
+
+    tabs-to-spaces [-h] FILES...
+
+OPTIONS
+
+    -h    Show help text.
+
+ARGUMENTS
+
+    FILES...    One or more files to process.
+
+BEHAVIOR
+
+    Converts any tabs within a file to spaces.
+
+EOF
+		  exit 0;
+		  ;;
+	   '?') die "Unknown option" ;;
+    esac
+done
+
+# Arguments
+files=("$@")
+if [ -z "${files[@]}" ]; then
+    die "FILES... argument required"
+fi
+
+# Process files
+for file in "${files[@]}"; do
+    cat "$file" | sed 's/\t/     /g' | tee "$file"
+done
