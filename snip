@@ -39,7 +39,7 @@ fi
 
 # Parse arguments
 while [ ! -z "$1" ]; do
-	if [[ "$1" =~ (--help|-h) ]]; then
+	if [[ "$1" =~ ^(--help|-h)$ ]]; then
 		show-help "$0"
 		exit 1
 	else
