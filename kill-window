@@ -16,7 +16,7 @@ check() {
 }
 
 # Options
-while getopts "hc" opt; do
+while getopts "hy" opt; do
     case "$opt" in
 	   h)
 		  cat <<EOF
@@ -24,12 +24,12 @@ kill-window - Kill X window.
 
 USAGE
 
-    kill-window [-h,-c]
+    kill-window [-h,-y]
 
 OPTIONS
 
     -h    Show this help text.
-    -c    Confirm the window to kill before doing so.
+    -y    Do not confirm the window before killing.
 
 BEHAIVOR
 
@@ -40,7 +40,7 @@ BEHAIVOR
 EOF
 		  exit 0
 		  ;;
-	   c) opt_confirm=true ;;
+	   y) opt_yes=true ;;
     esac
 done
 
@@ -74,12 +74,12 @@ xwindow_pid=$(echo "$xwindow_info" | awk '{ printf $3 }')
 check "Failed to get PID of X window $xwindow_id_str"
 
 # Confirm if required
-if [ -n "$opt_confirm" ]; then
-    bold "Selected window"
-    
-    bold "Window ID  WS PID    Bin    Title"
-    echo "$xwindow_info"
+bold "Selected window"
 
+bold "Window ID  WS PID    Bin    Title"
+echo "$xwindow_info"
+
+if [ -z "$opt_yes" ]; then
     bold "Kill this window? (Any key to continue, ctrl+c to cancel)"
     read
 fi
