@@ -182,7 +182,7 @@ Page standard error.
 ## kill-window
 Kill an X window.
 
-# tabs-to-spaces
+## tabs-to-spaces
 Converts tabs in a file to spaces.
 
 ## m3u8dl
