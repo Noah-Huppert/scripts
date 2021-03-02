@@ -45,6 +45,7 @@ A collection of useful Bash scripts.
 	- [pagerr](#pagerr)
 	- [kill-window](#kill-window)
 	- [tabs-to-spaces](#tabs-to-spaces)
+	- [m3u8dl](#m3u8dl)
 - [Functions](#functions)
     - [mcdir](#mcdir)
 	- [gcd](#gcd)
@@ -183,6 +184,9 @@ Kill an X window.
 
 # tabs-to-spaces
 Converts tabs in a file to spaces.
+
+## m3u8dl
+Downloads a video stream specified by a m3u8 file into an mp4 file.
 
 # Functions
 ## mcdir

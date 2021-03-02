@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# Helpers
+die() {
+    echo "Error: $@" >&2
+    exit 1
+}
+
+check() {
+    if [[ "$?" != "0" ]]; then
+	   die "$@"
+    fi
+}
+
+bold() {
+    echo "$(tput bold)$@$(tput sgr0)"
+}
+
+# Options
+while getopts "hi:o:" opt; do
+    case "$opt" in
+	   h)
+		  cat <<EOF
+m3u8dl - Downloads m3u8 streams into mp4 files
+
+USAGE
+
+    m3u8dl [-h] -i URL -o OUT
+
+OPTIONS
+
+    -h        Show help text.
+    -i URL    Input m3u8 stream file.
+    -o OUT    Output mp4 file.
+
+BEHAVIOR
+
+    Uses ffmpeg to parse the m3u8 file, download the
+    stream parts, and combine them.
+
+    Uses this oneliner from stackoverflow: https://stackoverflow.com/a/32537953
+    All credit goes to this answer, this script simply
+    wraps calling this command.
+    
+EOF
+		  exit 0
+		  ;;
+	   i) opt_input="$OPTARG" ;;
+	   o) opt_out="$OPTARG" ;;
+	   '?') die "Unknown option" ;;
+    esac
+done
+
+if [ -z "$opt_input" ]; then
+    die "-i URL option is required"
+fi
+
+if [ -z "$opt_out" ]; then
+    die "-o OUT option is required"
+fi
+
+# Encode
+bold "Downloading stream $opt_input to $opt_out"
+ffmpeg -i "$opt_input" -c copy -bsf:a aac_adtstoasc "$opt_out"
+check "Failed to download stream"
