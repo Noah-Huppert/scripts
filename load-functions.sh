@@ -1,22 +1,38 @@
 #!/usr/bin/env bash
-#?
-# load-functions.sh - Load functions into shell
-#
-# USAGE
-#
-#    source load-functions.sh
-#
-# BEHAVIOR
-#
-#    Load functions into shell, must be sourced.
-#
-#?
+while getopts "h" opt; do
+    case "$opt" in
+	   h)
+		  cat <<EOF
+load-functions.sh - Prints a list of function files to load
 
-# {{{1 Get functions directory
-functions_dir="$(realpath $(dirname "$0"))/functions"
+USAGE
 
-# {{{1 Load functions
+    load-functions.sh
+
+BEHAVIOR
+
+    Prints a space seperated list of absolute paths to bash files containing function
+    definitions which should be sourced.
+
+EOF
+		  exit 0
+		  ;;
+	   '?')
+		  echo "Error: Unknown option" >&2
+		  exit 1
+		  ;;
+    esac
+done
+
+# Get functions directory
+prog_dir=$(dirname $(realpath "$0")) 
+functions_dir="$prog_dir/functions"
+
+# Print functions
+files=()
 for function_file in $(find "$functions_dir" -type f -executable); do
     
-    . "$function_file"
+    files+=("$function_file")
 done
+
+echo "${files[@]}"
